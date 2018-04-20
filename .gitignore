@@ -1,0 +1,7 @@
+vendor
+aws_conf.php
+kekka*.txt
+*.php#
+*.php~
+*.txt~
+mail_conf.php
