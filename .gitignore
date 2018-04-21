@@ -5,3 +5,4 @@ kekka*.txt
 *.php~
 *.txt~
 mail_conf.php
+.#*.php

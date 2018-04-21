@@ -8,8 +8,8 @@ if (!empty($_POST['category']) && !empty($_POST['keyword'])) {
     $keyword = $_POST['keyword'];
     setcookie('category', $category);
     setcookie('keyword', $keyword);
-	$myobj = new KwSearch($category, $keyword);
-    $result = $myobj->getData();
+	$myobj = new KwSearch();
+    $result = $myobj->getData($category, $keyword);
 }
 if (isset($_COOKIE['category'])) $category = $_COOKIE['category'];
 if (isset($_COOKIE['keyword'])) $keyword = $_COOKIE['keyword'];

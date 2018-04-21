@@ -9,6 +9,15 @@ if(!empty($_POST['asin'])) {
 	$title = $_POST['title'];
 	$price = $_POST['price'];
 
+	// それぞれの値を数値に変換
+	// もし空文字列なら、-1 を入れる。
+	for($i = 0; $i < count($price); $i++) {
+		if ($price[$i] === '')
+			$price[$i] = -1;
+		else
+			$price[$i] = (int)$price[$i];
+	}
+	
 	$newAmazonPrice = [
 		'official_p' => $price[0],
 		'new_p' => $price[1],

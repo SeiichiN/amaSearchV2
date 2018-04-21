@@ -79,10 +79,10 @@ class PriceDB {
 		       . " values (?, ?, ?, ?, ?, ?)";
 	    $stmt = $this->db->prepare($query);
 	    $stmt->bindValue(1, $asin, PDO::PARAM_STR);
-	    $stmt->bindValue(2, (int)$newAmazonPrice['official_p'], PDO::PARAM_INT);
-	    $stmt->bindValue(3, (int)$newAmazonPrice['new_p'], PDO::PARAM_INT);
-	    $stmt->bindValue(4, (int)$newAmazonPrice['used_p'], PDO::PARAM_INT);
-	    $stmt->bindValue(5, (int)$newAmazonPrice['collectible_p'], PDO::PARAM_INT);
+	    $stmt->bindValue(2, $newAmazonPrice['official_p'], PDO::PARAM_INT);
+	    $stmt->bindValue(3, $newAmazonPrice['new_p'], PDO::PARAM_INT);
+	    $stmt->bindValue(4, $newAmazonPrice['used_p'], PDO::PARAM_INT);
+	    $stmt->bindValue(5, $newAmazonPrice['collectible_p'], PDO::PARAM_INT);
 	    $stmt->bindValue(6, $date, PDO::PARAM_STR);
 	    $stmt->execute();
 	    
@@ -137,15 +137,6 @@ class PriceDB {
                    . "used_p integer, collectible_p integer, date text )";
             $stmt = $this->db->query($query);
 
-
-            // レコード作成
-            // $newAmazonPrice = [
-            //     'official_p' => $price[0],
-            //     'new_p' => $price[1],
-            //     'used_p' => $price[2],
-            //     'collectible_p' => $price[3]
-            //     ];
-		    
             // データの追加
 		    // もし、このテーブルにすでにデータがあれば、同じ内容を追加してもしかたがない。
 		    // この処理は、データ（価格）に変化があったから、それを記録するものである。
@@ -164,5 +155,35 @@ class PriceDB {
 	    return TRUE;
     }
 
+	public function connectDB() {
+		return $this->db;
+	}
+    public function closeDB() {
+        $this->db = null;
+        return TRUE;
+    }
+
+    // 各テーブルの最新データにタイトルも付け加えて返す
+    public function lastData() {
+        $lastData = [];
+
+        // テーブル list から、各テーブル名を取得する。
+        $query = "select * from " . INDEX_TABLE;
+        $stmt = $this->db->query($query);
+        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+
+            // 各テーブルの最新データと結合した表を取得する。
+            $query2 = "select * from " . INDEX_TABLE . " inner join {$row['table_name']} on "
+                    . INDEX_TABLE . ".asin = {$row['table_name']}.asin order by id desc limit 1";
+            
+            $stmt2 = $this->db->query($query2);
+            while ($row2 = $stmt2->fetch(PDO::FETCH_ASSOC)) {
+
+                // 結合した最新データの配列を作成。
+                array_push($lastData, $row2);
+            }
+        }
+        return $lastData;
+    }
 }
 ?>

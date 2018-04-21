@@ -51,7 +51,7 @@ class KwSearch extends AmazonSearch {
     public $keyword = null;
     private $data;
     
-	public function __construct(string $category, string $keyword) {
+	public function getData(string $category, string $keyword) {
         $this->category = $category;
         $this->keyword = $keyword;
         
@@ -61,29 +61,27 @@ class KwSearch extends AmazonSearch {
 		$search->setResponseGroup(array('ItemAttributes', 'OfferSummary', 'Offers', 'Images'));
 
         $this->data = parent::mysearch($search);
-	}
-
-	public function getData() {
 		return $this->data;
     }
 	
 }
 
-// $searchData = new KwSearch('Books', '長濱ねる');
-
-// // var_dump($searchData->getData());
-// foreach ($searchData->getData() as $onedata) {
-//   	echo $onedata['id'], "<br>\n";
-//   	echo $onedata['title'], "<br>\n";
-//   	echo $onedata['author'], "<br>\n";
-//   	echo $onedata['pubdate'], "<br>\n";
-//   	echo $onedata['pub'], "<br>\n";
-//   	echo $onedata['url'], "<br>\n";
-//   	echo $onedata['image'], "<br>\n";
-//   	echo $onedata['newPrice'], "<br>\n";
-//   	echo $onedata['usedPrice'], "<br>\n";
-//   	echo $onedata['collectiblePrice'], "<br>\n";
-//   	echo $onedata['officialPrice'], "<br>\n";
-// }
+/* $myobj = new KwSearch();
+ * $searchData = $myobj->getData('Books', '長濱ねる');
+ * 
+ * // var_dump($searchData);
+ * foreach ($searchData as $onedata) {
+ *    	echo $onedata['id'], "<br>\n";
+ *    	echo $onedata['title'], "<br>\n";
+ *    	echo $onedata['author'], "<br>\n";
+ *    	echo $onedata['pubdate'], "<br>\n";
+ *    	echo $onedata['pub'], "<br>\n";
+ *    	echo $onedata['url'], "<br>\n";
+ *    	echo $onedata['image'], "<br>\n";
+ *    	echo $onedata['newPrice'], "<br>\n";
+ *    	echo $onedata['usedPrice'], "<br>\n";
+ *    	echo $onedata['collectiblePrice'], "<br>\n";
+ *    	echo $onedata['officialPrice'], "<br>\n";
+ * }*/
 
 

@@ -48,37 +48,36 @@ class IdLookup extends AmazonSearch {
     public $id = null;
     private $data;
     
-	public function __construct(string $id) {
+	public function getData(string $id) {
 		$this->id = $id;
-        
+
 		$lookup = new Lookup();
 		$lookup->setItemId($this->id);
 		$lookup->setResponseGroup(array('ItemAttributes', 'OfferSummary', 'Offers', 'Images'));
 
         $this->data = parent::mysearch($lookup);
-	}
-
-	public function getData() {
+        
 		return $this->data;
     }
 	
 }
 
-/* $lookupData = new IdLookup('4063528650');
+/* $myobj = new IdLookup();
+ * $lookupData = $myobj->getData('4063528650');
  * 
- * // var_dump($searchData->getData());
- * foreach ($lookupData->getData() as $onedata) {
- *   	echo $onedata['id'], "<br>\n";
- *   	echo $onedata['title'], "<br>\n";
- *   	echo $onedata['author'], "<br>\n";
- *   	echo $onedata['pubdate'], "<br>\n";
- *   	echo $onedata['pub'], "<br>\n";
- *   	echo $onedata['url'], "<br>\n";
- *   	echo $onedata['image'], "<br>\n";
- *   	echo $onedata['newPrice'], "<br>\n";
- *   	echo $onedata['usedPrice'], "<br>\n";
- *   	echo $onedata['collectiblePrice'], "<br>\n";
- *   	echo $onedata['officialPrice'], "<br>\n";
+ * // print_r($lookupData);
+ * foreach ($lookupData as $onedata) {
+ *     echo $onedata['id'], "<br>\n";
+ *     echo $onedata['title'], "<br>\n";
+ *     echo $onedata['author'], "<br>\n";
+ *     echo $onedata['pubdate'], "<br>\n";
+ *     echo $onedata['pub'], "<br>\n";
+ *     echo $onedata['url'], "<br>\n";
+ *     echo $onedata['image'], "<br>\n";
+ *     echo $onedata['newPrice'], "<br>\n";
+ *     echo $onedata['usedPrice'], "<br>\n";
+ *     echo $onedata['collectiblePrice'], "<br>\n";
+ *     echo $onedata['officialPrice'], "<br>\n";
  * }*/
 
 

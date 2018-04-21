@@ -7,8 +7,8 @@ if (!empty($_POST['asin'])) {
     $asin = $_POST['asin'];
     setcookie('asin', $asin);
     // var_dump($asin);
-    $myobj = new IdLookup($asin);
-	$result = $myobj->getData();
+    $myobj = new IdLookup();
+	$result = $myobj->getData($asin);
 }
 
 if (isset($_COOKIE['asin'])) $asin = $_COOKIE['asin'];
