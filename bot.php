@@ -69,9 +69,6 @@ function chkPrice(&$mail_msg) {
     $mydb = new PriceDB();
     $lastDBdata = $mydb->lastData();
 
-    // var_dump($lastDBdata);
-    // die();
-
     $mylookup = new IdLookup();
     foreach ($lastDBdata as $row) {
         
