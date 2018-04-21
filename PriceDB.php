@@ -7,6 +7,7 @@
 
 const DBNAME = 'watchItem.db';
 const INDEX_TABLE = 'list';
+const USER_TABLE = 'user';
 
 class PriceDB {
     private $db;
@@ -145,7 +146,7 @@ class PriceDB {
 
         } catch (PDOException $e) {
             echo "エラー: ", $e->getMessage();
-            echo "(File: ", $e->getFile(), ")";
+            echo "(File: ", $e->getFile(), ") ";
             echo "(Line: ", $e->getLine(), ")\n";
             die();
         }
@@ -185,5 +186,26 @@ class PriceDB {
         }
         return $lastData;
     }
+
+	public function registUser($member) {
+        try {
+            $query = "insert into " . USER_TABLE . " (loginId, fullName, password, email) "
+                   . "values ( ?, ?, ?, ?)";
+            $stmt = $this->db->prepare($query);
+            $stmt->bindValue(1, $member['loginId'], PDO::PARAM_STR);
+            $stmt->bindValue(2, $member['name'], PDO::PARAM_STR);
+            $stmt->bindValue(3, $member['passwd'], PDO::PARAM_STR);
+            $stmt->bindValue(4, $member['email'], PDO::PARAM_STR);
+            $stmt->execute();
+        } catch (PDOException $e) {
+            echo "エラー: ", $e->getMessage();
+            echo "(File: ", $e->getFile(), ") ";
+            echo "(Line: ", $e->getLine(), ")\n";
+            die();
+        }
+        return TRUE;
+        
+	}
+	
 }
 ?>

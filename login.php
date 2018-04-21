@@ -21,11 +21,13 @@
             </p>
             <input type="submit" value="ログイン">
         </form>
-        <form action="newmember.php" method="post">
-            <button type="submit" name="newmember" value="new">
-                新規ログインはこちら
-            </button>
-        </form>
+        <p>
+            <form action="newmember.php" method="post">
+                <button type="submit" name="newmember" value="new">
+                    新規ログインはこちら
+                </button>
+            </form>
+        </p>
         <?php require_once ('footer.php'); ?>
     </body>
 </html>
