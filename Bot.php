@@ -9,21 +9,32 @@ require_once('mylib.php');
 require_once('PriceDB.php');
 require_once('IdLookup.php');
 require_once('mymail.php');
+require_once('UserDB.php');
 
 class Bot {
-	function mkMailMsg($priceBit, $oldAmazonPrice, $newAmazonPrice) {
+    private $loginId;
+
+    public function __construct($loginId) {
+        $this->loginId = $loginId;
+    }
+        
+	private function mkMailMsg($priceBit, $oldAmazonPrice, $newAmazonPrice) {
 		$msg = '';
 		if (($priceBit & 1) === 1) {
-			$msg = $msg . "アマゾン価格が {$oldAmazonPrice['official_p']} 円から {$newAmazonPrice['official_p']} 円に変動しました。\n";
+			$msg = $msg . "アマゾン価格が {$oldAmazonPrice['official_p']} 円から "
+				 . "{$newAmazonPrice['official_p']} 円に変動しました。\n";
 		}
 		if(($priceBit & 2) === 2) {
-			$msg = $msg . "新品価格が {$oldAmazonPrice['new_p']} 円から {$newAmazonPrice['new_p']} 円に変動しました。\n";
+			$msg = $msg . "新品価格が {$oldAmazonPrice['new_p']} 円から "
+                 . "{$newAmazonPrice['new_p']} 円に変動しました。\n";
 		}
 		if(($priceBit & 4) === 4) {
-			$msg = $msg . "中古品価格が {$oldAmazonPrice['used_p']} 円から {$newAmazonPrice['used_p']} 円に変動しました。\n";
+			$msg = $msg . "中古品価格が {$oldAmazonPrice['used_p']} 円から "
+                 . "{$newAmazonPrice['used_p']} 円に変動しました。\n";
 		}
 		if(($priceBit & 8) === 8) {
-			$msg = $msg . "コレクション価格が {$oldAmazonPrice['collectible_p']} 円から {$newAmazonPrice['collectible_p']} 円に変動しました。\n";
+			$msg = $msg . "コレクション価格が {$oldAmazonPrice['collectible_p']} 円から "
+                 . "{$newAmazonPrice['collectible_p']} 円に変動しました。\n";
 		}
 		return $msg;
 	}
@@ -46,28 +57,28 @@ class Bot {
 	 *
 	 * @return: int $priceBit -- 10進数。ビット演算の結果が入っている。
 	 */
-	function setPriceBit($db, $newdata) {
+	private function setPriceBit($row, $newdata) {
 		$priceBit = 0;
 
-		if ($db['official_p'] != $newdata['officialPrice']) {
+		if ($row['official_p'] != $newdata['officialPrice']) {
 			$priceBit = $priceBit | 1;
 		}
-		if ($db['new_p'] != $newdata['newPrice']) {
+		if ($row['new_p'] != $newdata['newPrice']) {
 			$priceBit = $priceBit | 2;
 		}
-		if ($db['used_p'] != $newdata['usedPrice']) {
+		if ($row['used_p'] != $newdata['usedPrice']) {
 			$priceBit = $priceBit | 4;
 		}
-		if ($db['collectible_p'] != $newdata['collectiblePrice']) {
+		if ($row['collectible_p'] != $newdata['collectiblePrice']) {
 			$priceBit = $priceBit | 8;
 		}
 		return $priceBit;
 	}
 
-	function chkPrice(&$mail_msg) {
+	private function chkPrice(&$mail_msg) {
 		$doMail = FALSE;
 
-		$mydb = new PriceDB();
+		$mydb = new PriceDB($this->loginId);
 		$lastDBdata = $mydb->lastData();
 
 		$mylookup = new IdLookup();
@@ -77,11 +88,13 @@ class Bot {
 			$mygetdata = $mylookup->getData($row['asin']);
         
 			// mygetdataを文字列から数値に変換する。空白は-1。
+            // arrChange -- mylib.php に記載。
 			$newdata = array_map("arrChange", $mygetdata[0]);
         
 			// $newdata と 記録されたデータを比べて、価格に変動があればチェック。
 			$priceBit = $this->setPriceBit($row, $newdata);
-			echo $row['asin'], " ", $row['title'], " BIT= ", $priceBit, "<br>\n";
+            if (DEBUG)
+                echo $row['asin'], " ", $row['title'], " BIT= ", $priceBit, "<br>\n";
         
 			// もし、0でなければ価格に変動があったということなので、
 			// その価格を記録する。また、メールでの報告文を作成。
@@ -114,20 +127,26 @@ class Bot {
 		return $doMail;
 	}
 
+    private function getMailAddress() {
+        $mydb = new UserDB();
+        $email = $mydb->getMailAddress($this->loginId);
+        return $email;
+    }
+        
 	public function checkNow() {
 		$mail_msg = "アマゾン価格に変動は以下のとおりです。\n";
 		$subject = 'アマゾン価格に変動がありました。';
-		$to = 'billie175@gmail.com';
+		$to = $this->getMailAddress(); 
 	
 		$doMail = $this->chkPrice($mail_msg);
 		if ($doMail) {
 			if (!gmail($subject, $mail_msg, $to)) {
-				echo "メール送信に失敗しました。\n";
+				setcookie('msg', "メール送信に失敗しました。");
 			} else {
-				echo "メール送信しました。\n";
+				setcookie('msg', "メール送信しました。");
 			}
 		} else {
-			echo "価格に変動はありませんでした。\n";
+			setcookie('msg', "価格に変動はありませんでした。");
 		}
 	}
     

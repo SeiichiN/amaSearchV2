@@ -33,7 +33,19 @@ switch ($filename) {
         <div id="wrap">
             <header>
                 <div class="loginId"><?php if(isset($loginId)) echo $loginId; ?></div>
-                <h1>アマゾンサーチ</h1>
+                <div class="sub-nav">
+                    <div class="top">
+                        <a href="index.php">TOP</a>
+                    </div>
+                    <div class="login-logout">
+                        <?php if(isset($loginId)) { ?>
+                            <a href="logout.php">ログアウト</a>
+                        <?php } else { ?>
+                            <a href="login.php">ログイン</a>
+                        <?php } ?>
+                    </div>
+                </div><!-- .sub-nav -->
+                <h1><a href="index.php">アマゾンサーチ</a></h1>
             </header>
             <article>
 

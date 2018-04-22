@@ -8,6 +8,8 @@ use GuzzleHttp\Middleware;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Response;
 
+const DEBUG = FALSE;
+
 /**
  * Usage:
  *   $request = mkGuzzleRequest();
@@ -47,13 +49,14 @@ function mkGuzzleRequest() {
 			}
 		}
 		if ($shouldRetry) {
-			printf("Retrying %s\n %s\n %s/5, %s\n",
-				   $request->getMethod(),
-				   $request->getUri(),
-				   $retries + 1,
-				   $response ? 'status code: ' . $response->getStatusCode() :
-				   $e->getMessage()
-			);
+			if (DEBUG)
+				printf("Retrying %s\n %s\n %s/5, %s\n",
+					   $request->getMethod(),
+					   $request->getUri(),
+					   $retries + 1,
+					   $response ? 'status code: ' . $response->getStatusCode() :
+					   $e->getMessage()
+					);
 		}
         return $shouldRetry;
 	};

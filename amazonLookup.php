@@ -3,6 +3,13 @@
 
 require_once('IdLookup.php');
 
+session_start();
+
+if (isset($_SESSION['loginId']))
+    $loginId = $_SESSION['loginId'];
+else
+    header('Location: index.php');
+
 if (!empty($_POST['asin'])) {
     $asin = $_POST['asin'];
     setcookie('asin', $asin);
@@ -11,11 +18,20 @@ if (!empty($_POST['asin'])) {
 	$result = $myobj->getData($asin);
 }
 
-if (isset($_COOKIE['asin'])) $asin = $_COOKIE['asin'];
+if (isset($_COOKIE['asin'])) {
+    $asin = $_COOKIE['asin'];
+    setcookie('asin', '', time() - 3600);
+}
+
+if (isset($_COOKIE['msg'])) {
+    $msg = $_COOKIE['msg'];
+    setcookie('msg', '', time() - 3600);
+}
 
 require_once('header.php');
 ?>
 <div class="err"><?php if (isset($errmsg)) echo $errmsg; ?></div>
+<div class="msg"><?php if (isset($msg)) echo $msg; ?></div>
 <h1>商品番号サーチ</h1>
 <p>ASINを入力してください。</p>
 <form action="amazonLookup.php" method="post">
@@ -26,8 +42,7 @@ require_once('header.php');
 </form>
 <section>
     <?php if (!empty($result)) { ?>
-        <h1>検索結果</h1>
-        
+         
         <?php
         foreach($result as $row) {
             $id = $row['id'];
@@ -44,38 +59,34 @@ require_once('header.php');
                     ASIN: <?php echo $id; ?>
                 </div>
                 <div class="title">
-                    <a href="<?php echo $url; ?>">
+                    <a href="<?php echo $url; ?>" target="_blank">
                         タイトル: <?php echo $title; ?>
                     </a>
                 </div>
                 <div class="image">
-                    <a href="<?php echo $url; ?>">
+                    <a href="<?php echo $url; ?>" target="_blank">
                         <img src="<?php echo $image; ?>" alt="">
                     </a>
                 </div>
 				<div class="officialPrice">
                     アマゾン価格: \<?php echo $officialPrice; ?>
-                    <input type="checkbox" name="price[]" id="officialPrice"
+                    <input type="hidden" name="officialPrice" id="officialPrice"
                            value="<?php echo $officialPrice; ?>">
-                    <label for="officialPrice">ウォッチ</label>
                 </div>
 				<div class="newPrice">
                     新品: \<?php echo $newPrice; ?>
-                    <input type="checkbox" name="price[]" id="newPrice"
+                    <input type="hidden" name="newPrice" id="newPrice"
                            value="<?php echo $newPrice; ?>">
-                    <label for="newPrice">ウォッチ</label>
                 </div>
                 <div class="usedPrice">
                     中古品: \<?php echo $usedPrice; ?>
-                    <input type="checkbox" name="price[]" id="usedPrice"
+                    <input type="hidden" name="usedPrice" id="usedPrice"
                            value="<?php echo $usedPrice; ?>">
-                    <label for="usedPrice">ウォッチ</label>
                 </div>
                 <div class="collectiblePrice">
                     コレクター商品: \<?php echo $collectiblePrice; ?>
-                    <input type="checkbox" name="price[]" id="collectiblePrice"
+                    <input type="hidden" name="collectiblePrice" id="collectiblePrice"
                            value="<?php echo $collectiblePrice; ?>">
-                    <label for="collectiblePrice">ウォッチ</label>
                 </div>
                 <input type="hidden" name="asin" value="<?php echo $id; ?>">
                 <input type="hidden" name="title" value="<?php echo $title; ?>">

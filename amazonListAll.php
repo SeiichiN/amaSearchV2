@@ -2,11 +2,17 @@
 // namespace billiesworks
 
 // amazonListAll.php
+session_start();
 
 require_once('mylib.php');
 require_once('PriceDB.php');
 
-$mydb = new PriceDB();
+if (isset($_SESSION['loginId']))
+    $loginId = $_SESSION['loginId'];
+else
+    header('Location: index.php');
+
+$mydb = new PriceDB($loginId);
 $lastData = $mydb->lastdata();
 
 require_once('header.php');

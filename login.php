@@ -2,7 +2,7 @@
 // login.php
 require_once('mylib.php');
 session_start();
-$_SESSION['guestid'] = 'guest';     // . $date("YmdHis");
+$_SESSION['guestId'] = 'guest';     // . $date("YmdHis");
 
 require_once('header.php');
 ?>

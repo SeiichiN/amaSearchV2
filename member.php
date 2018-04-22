@@ -47,9 +47,9 @@ if ($flag_id === 'OK' && $flag_pw === 'OK') {
     // セッションIDの再作成
     session_regenerate_id(true);
 
-    $_SESSION['loginid'] = $loginId;
+    $_SESSION['loginId'] = $loginId;
     $_SESSION['passwd'] = $passwd;
-    $_SESSION['guestid'] = '';
+    $_SESSION['guestId'] = '';
 
     header('Location: amazonFind.php');
 }

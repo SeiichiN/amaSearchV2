@@ -23,8 +23,8 @@ function gmail($subject, $body, $to) {
 	$mail->SMTPAuth = true;
 	$mail->Username = $from;
 	$mail->Password = $pass;
-	$mail->setFrom($from, 'Shinichi Nakayama');
-	$mail->addReplyTo($from, 'Shinichi Nakayama');
+	$mail->setFrom($from, 'AmazonSearchBot');
+	$mail->addReplyTo($from, 'ASB Manager');
 	$mail->addAddress($to);
 	$mail->Subject = $subject;
 	$mail->Body = $body;

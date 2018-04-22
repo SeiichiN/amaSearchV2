@@ -1,19 +1,20 @@
 <?php
 // namespace billiesworks
-
 // priceDB.php
 
 // require_once('mylib.php');
 
 // const DBNAME = 'watchItem.db';
 const INDEX_TABLE = 'list';
-const USER_TABLE = 'user';
+// const USER_TABLE = 'user';
 
 class PriceDB {
     private $db;
     public $asin, $title, $price;
 //	public $loginName;
-    
+
+	// $loginName を引数にとることで、データベース名を
+	// <ログイン名>.db としている。
     function __construct($loginName) {
         $dbname = 'sqlite:' . $loginName . '.db';
         $this->db = new PDO($dbname);
@@ -119,11 +120,12 @@ class PriceDB {
 
 		    // テーブルがあるということは、テーブル一覧(list)に登録されているってこと。
             if ($aru) {
-                echo "この商品はすでに登録されてますね。<br>\n";
+                $msg = "この商品はすでに登録されてますね。";
             } else {
-                echo "この商品を登録しますね。<br>\n";
+                $msg =  "この商品を登録しますね。";
                 $this->db_index($asin, $tablename, $title);
             }
+			setcookie('msg', $msg);
 		    
             // テーブルがなければ作成 -- タイトルはここには入れない。listに入れてある。
 		    // テーブルがすでにあれば、なにもしない。

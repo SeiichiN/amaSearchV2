@@ -5,10 +5,10 @@ require_once('KwSearch.php');
 
 session_start();
 
-if (isset($_SESSION['loginid'])) {
-    $loginId = $_SESSION['loginid'];
+if (isset($_SESSION['loginId'])) {
+    $loginId = $_SESSION['loginId'];
 } else {
-    header('Location: login.php');
+    header('Location: index.php');
     exit();
 }
 
@@ -69,7 +69,6 @@ require_once('header.php');
 </form>
 <section>
     <?php if (!empty($result)) { ?>
-        <h1>検索結果</h1>
         
         <?php foreach($result as $row) { ?>
             <div class="item">
@@ -83,26 +82,26 @@ require_once('header.php');
                     </form>
                 </div>
                 <div class="title">
-                    <a href="<?php echo $row['url']; ?>">
+                    <a href="<?php echo $row['url']; ?>" target="_blank">
                         タイトル: <?php echo $row['title']; ?>
                     </a>
                 </div>
                 <div class="image">
-                    <a href="<?php echo $row['url']; ?>">
+                    <a href="<?php echo $row['url']; ?>" target="_blank">
                         <img src="<?php echo $row['image']; ?>" alt="">
                     </a>
                 </div>
 				<div class="officialPrice">
-                    アマゾン価格: <?php echo $row['officialPrice']; ?>
+                    アマゾン価格: \<?php echo $row['officialPrice']; ?>
                 </div>
 				<div class="newPrice">
-                    新品価格: <?php echo $row['newPrice']; ?>
+                    新品価格: \<?php echo $row['newPrice']; ?>
                 </div>
 				<div class="usedPrice">
-                    中古品価格: <?php echo $row['usedPrice']; ?>
+                    中古品価格: \<?php echo $row['usedPrice']; ?>
                 </div>
 				<div class="collectiblePrice">
-                    コレクション価格: <?php echo $row['collectiblePrice']; ?>
+                    コレクション価格: \<?php echo $row['collectiblePrice']; ?>
                 </div>
 
             </div>

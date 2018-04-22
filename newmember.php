@@ -6,7 +6,7 @@ session_start();
 
 $msg1 = '';
 $msg2 = '';
-$loginId = !empty($_SESSION['id']) ? $_SESSION['id'] : '';
+$loginId = !empty($_SESSION['loginId']) ? $_SESSION['loginId'] : '';
 $name = !empty($_SESSION['name']) ? $_SESSION['name'] : '';
 $email = !empty($_SESSION['email']) ? $_SESSION['email'] : '';
 $passwd = !empty($_SESSION['passwd']) ? $_SESSION['passwd'] : '';

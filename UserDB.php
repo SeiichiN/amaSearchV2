@@ -37,10 +37,19 @@ class UserDB {
         
 	}
 
+	/**
+     * Summary: ユーザーを見つける。
+     *          この関数は、ユーザー名とパスワードの重複を調べるために作った。
+     *
+     * @params: string $kw -- loginId か fullName, password, email を指定。
+     *          string $elem -- ログインID, なまえ、パスワード、メルアドを指定。
+     *
+     * @return: boolean TRUE or FALSE
+     */
 	public function findUser($kw, $elem) {
         $flag = FALSE;
 		try {
-			$query = "select * from user where {$kw} = ?";
+			$query = "select * from " . USER_TABLE . " where {$kw} = ?";
 			$stmt = $this->db->prepare($query);
 			$stmt->bindValue(1, $elem, PDO::PARAM_STR);
 			$stmt->execute();
@@ -60,6 +69,24 @@ class UserDB {
             die();
         }
         return $flag;
+    }
+
+    public function getMailAddress($loginId) {
+        try {
+            $query = "select email from " . USER_TABLE . " where loginId = ?";
+            $stmt = $this->db->prepare($query);
+            $stmt->bindValue(1, $loginId, PDO::PARAM_STR);
+            $stmt->execute();
+            while($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                $email = $row['email'];
+            }
+		} catch (PDOException $e) {
+            echo "エラー: ", $e->getMessage();
+            echo "(File: ", $e->getFile(), ") ";
+            echo "(Line: ", $e->getLine(), ")\n";
+            die();
+        }
+        return $email;
     }
 
 }

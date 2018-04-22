@@ -10,7 +10,7 @@ if (!empty($_POST['name']) && !empty($_POST['email']) && !empty($_POST['passwd']
 	$name = $_POST['name'];
 	$email = $_POST['email'];
 	$passwd = $_POST['passwd'];
-    $_SESSION['id'] = $loginId;
+    $_SESSION['loginId'] = $loginId;
     $_SESSION['name'] = $name;
     $_SESSION['email'] = $email;
     $_SESSION['passwd'] = $passwd;
