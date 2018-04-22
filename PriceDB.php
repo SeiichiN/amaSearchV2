@@ -206,6 +206,31 @@ class PriceDB {
         return TRUE;
         
 	}
+
+	public function findUser($kw, $elem) {
+        $flag = FALSE;
+		try {
+			$query = "select * from user where {$kw} = ?";
+			$stmt = $this->db->prepare($query);
+			$stmt->bindValue(1, $elem, PDO::PARAM_STR);
+			$stmt->execute();
+            while($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                $flag = TRUE;
+                $member = [
+                    'loginId' => $row['loginId'],
+                    'name' => $row['fullName'],
+                    'passwd' => $row['password'],
+                    'email' => $row['email'],
+                ];
+            }
+		} catch (PDOException $e) {
+            echo "エラー: ", $e->getMessage();
+            echo "(File: ", $e->getFile(), ") ";
+            echo "(Line: ", $e->getLine(), ")\n";
+            die();
+        }
+        return $flag;
+    }
 	
 }
 ?>
