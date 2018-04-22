@@ -1,6 +1,6 @@
 <?php
 // register.php
-require_once('PriceDB.php');
+require_once('UserDB.php');
 require_once('mylib.php');
 
 session_start();
@@ -20,7 +20,7 @@ if (!empty($_POST['name']) && !empty($_POST['email']) && !empty($_POST['passwd']
 }
 
 // データベースに接続
-$mydb = new PriceDB();
+$mydb = new UserDB();
 
 // ログイン名とメールアドレスに過去の重複がないかを調べる。
 //    ['loginId', 'name', 'passwd', 'email']

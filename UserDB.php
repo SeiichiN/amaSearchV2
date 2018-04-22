@@ -1,12 +1,20 @@
 <?php
 // UserDB.php
 
+const USER_TABLE = 'user';
+
 class UserDB {
 	private $db;
 
 	function __construct() {
 		$this->db = new PDO('sqlite:user.db');
         $this->db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+	    // USER_TABLEテーブルがなければ作る
+	    $query = "create table if not exists " . USER_TABLE . " ( "
+		       . "id integer primary key, loginId text, fullName text, password text, email text )";
+	    $stmt = $this->db->query($query);
+
 	}
 
 	public function registUser($member) {

@@ -5,6 +5,11 @@ require_once('mylib.php');
 
 session_start();
 
+if (isset($_COOKIE['overlapId']))
+    setcookie('overlapId', '', time() - 3600);
+if (isset($_COOKIE['overlapEmail']))
+    setcookie('overlapEmail', '', time() - 3600);
+
 if (!empty($_POST['id']) && !empty($_POST['password'])) {
 	$loginId = $_POST['id'];
 	$passwd = $_POST['password'];
@@ -12,7 +17,7 @@ if (!empty($_POST['id']) && !empty($_POST['password'])) {
 	header('Location: login.php');
 	exit();
 }
-echo "ここまではきてるよ\n";
+
 // データベースに接続
 $mydb = new UserDB();
 

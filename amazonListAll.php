@@ -9,9 +9,6 @@ require_once('PriceDB.php');
 $mydb = new PriceDB();
 $lastData = $mydb->lastdata();
 
-// $query = "select * from " . INDEX_TABLE;
-// $stmt = $db->query($query);
-
 require_once('header.php');
 ?>
 <h1>ウォッチ一覧</h1>

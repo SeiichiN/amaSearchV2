@@ -5,7 +5,7 @@
 
 // require_once('mylib.php');
 
-const DBNAME = 'watchItem.db';
+// const DBNAME = 'watchItem.db';
 const INDEX_TABLE = 'list';
 const USER_TABLE = 'user';
 
@@ -15,16 +15,15 @@ class PriceDB {
 //	public $loginName;
     
     function __construct($loginName) {
-        $dbname = 'sqlite:' . DBNAME;
+        $dbname = 'sqlite:' . $loginName . '.db';
         $this->db = new PDO($dbname);
         // $db = new PDO('sqlite:watchItem.db');
-        
-        /* $query = "select * from sample";
-         * $stmt = $db->query($query);
-         * foreach ($stmt as $row) {
-         *     print_r($row);
-         * }*/
         $this->db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+	    // listテーブルがなければ作る
+	    $query = "create table if not exists " . INDEX_TABLE . " ( "
+		       . "id integer primary key, asin text, table_name text, title text )";
+	    $stmt = $this->db->query($query);
     }
 
     /**
@@ -41,12 +40,6 @@ class PriceDB {
      * @return: $db.
      */
     function db_index($asin, $dbtable, $title) {
-
-	    // listテーブルがなければ作る
-	    // 最初のウォッチ指定のときにできるので、あとはスルー。
-	    $query = "create table if not exists " . INDEX_TABLE . " ( "
-		       . "id integer primary key, asin text, table_name text, title text )";
-	    $stmt = $this->db->query($query);
 
 	    // データを入れる。新規テーブル（ウォッチ商品）を記録する。
 	    $query = "insert into " . INDEX_TABLE . " ( asin, table_name, title ) values (?, ?, ?)";

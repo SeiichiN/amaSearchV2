@@ -16,7 +16,7 @@ if (isset($_COOKIE['asin'])) $asin = $_COOKIE['asin'];
 require_once('header.php');
 ?>
 <div class="err"><?php if (isset($errmsg)) echo $errmsg; ?></div>
-<h1>アマゾン・サーチ</h1>
+<h1>商品番号サーチ</h1>
 <p>ASINを入力してください。</p>
 <form action="amazonLookup.php" method="post">
     <label for="asin">ASIN:</label>

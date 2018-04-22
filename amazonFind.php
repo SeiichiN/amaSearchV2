@@ -27,7 +27,7 @@ require_once('header.php');
 ?>
 
 <div class="err"><?php if (isset($errmsg)) echo $errmsg; ?></div>
-<h1>アマゾン・サーチ</h1>
+<h1>キーワード・サーチ</h1>
 <p>探したいものはなんですか？</p>
 <form action="amazonFind.php" method="post">
     <label for="category">カテゴリ:</label>
