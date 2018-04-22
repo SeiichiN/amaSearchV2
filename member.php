@@ -1,6 +1,6 @@
 <?php
 // member.php
-require_once('PriceDB.php');
+require_once('UserDB.php');
 require_once('mylib.php');
 
 session_start();
@@ -14,7 +14,7 @@ if (!empty($_POST['id']) && !empty($_POST['password'])) {
 }
 echo "ここまではきてるよ\n";
 // データベースに接続
-$mydb = new PriceDB();
+$mydb = new UserDB();
 
 // ログイン名とパスワードを調べる。
 //    ['loginId', 'name', 'passwd', 'email']

@@ -12,8 +12,9 @@ const USER_TABLE = 'user';
 class PriceDB {
     private $db;
     public $asin, $title, $price;
+//	public $loginName;
     
-    function __construct() {
+    function __construct($loginName) {
         $dbname = 'sqlite:' . DBNAME;
         $this->db = new PDO($dbname);
         // $db = new PDO('sqlite:watchItem.db');
@@ -187,50 +188,6 @@ class PriceDB {
         return $lastData;
     }
 
-	public function registUser($member) {
-        try {
-            $query = "insert into " . USER_TABLE . " (loginId, fullName, password, email) "
-                   . "values ( ?, ?, ?, ?)";
-            $stmt = $this->db->prepare($query);
-            $stmt->bindValue(1, $member['loginId'], PDO::PARAM_STR);
-            $stmt->bindValue(2, $member['name'], PDO::PARAM_STR);
-            $stmt->bindValue(3, $member['passwd'], PDO::PARAM_STR);
-            $stmt->bindValue(4, $member['email'], PDO::PARAM_STR);
-            $stmt->execute();
-        } catch (PDOException $e) {
-            echo "エラー: ", $e->getMessage();
-            echo "(File: ", $e->getFile(), ") ";
-            echo "(Line: ", $e->getLine(), ")\n";
-            die();
-        }
-        return TRUE;
-        
-	}
-
-	public function findUser($kw, $elem) {
-        $flag = FALSE;
-		try {
-			$query = "select * from user where {$kw} = ?";
-			$stmt = $this->db->prepare($query);
-			$stmt->bindValue(1, $elem, PDO::PARAM_STR);
-			$stmt->execute();
-            while($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-                $flag = TRUE;
-                $member = [
-                    'loginId' => $row['loginId'],
-                    'name' => $row['fullName'],
-                    'passwd' => $row['password'],
-                    'email' => $row['email'],
-                ];
-            }
-		} catch (PDOException $e) {
-            echo "エラー: ", $e->getMessage();
-            echo "(File: ", $e->getFile(), ") ";
-            echo "(Line: ", $e->getLine(), ")\n";
-            die();
-        }
-        return $flag;
-    }
 	
 }
 ?>
