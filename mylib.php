@@ -41,17 +41,3 @@ function arrChange ($strNum) {
 }
 
 ?>
-
-
-
-
-
-
-
-
-
-
-
-
-
-

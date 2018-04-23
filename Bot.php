@@ -134,13 +134,21 @@ class Bot {
 		$doMail = $this->chkPrice($mail_msg);
 		if ($doMail) {
 			if (!gmail($subject, $mail_msg, $to)) {
-				setcookie('msg', "メール送信に失敗しました。");
+				$msg = "メール送信に失敗しました。";
 			} else {
-				setcookie('msg', "メール送信しました。");
+				$msg = "メール送信しました。";
 			}
 		} else {
-			setcookie('msg', "価格に変動はありませんでした。");
+			$msg = "価格に変動はありませんでした。";
 		}
+		return $msg;
 	}
-    
 }
+
+
+
+
+
+
+
+

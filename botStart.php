@@ -19,15 +19,10 @@ function getMailAddress($loginId) {
 // echo "アマゾンの現在価格を調べます。\n";
 $mailAddress = getMailAddress($loginId);
 $myobj = new Bot();
-$myobj->checkNow($loginId, $mailAddress);
+$msg = $myobj->checkNow($loginId, $mailAddress);
 
+setcookie('msg', $msg);
 header('Location: index.php');
-
-
-
-
-
-
 
 
 

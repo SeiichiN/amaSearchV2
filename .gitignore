@@ -8,3 +8,8 @@ mail_conf.php
 .#*.php
 botbak.php
 *-before.php
+memo.txt
+*.json~
+test.php
+write.php
+
