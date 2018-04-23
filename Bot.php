@@ -14,11 +14,6 @@ class Bot {
     private $loginId;
 	private $mailAddress;
 
-    public function __construct($loginId, $mailAddress) {
-        $this->loginId = $loginId;
-		$this->mailAddress = $mailAddress;
-    }
-        
 	private function mkMailMsg($priceBit, $oldAmazonPrice, $newAmazonPrice) {
 		$msg = '';
 		if (($priceBit & 1) === 1) {
@@ -128,7 +123,10 @@ class Bot {
 		return $doMail;
 	}
         
-	public function checkNow() {
+	public function checkNow($loginId, $mailAddress) {
+		$this->loginId = $loginId;
+		$this->mailAddress = $mailAddress;
+
 		$mail_msg = "アマゾン価格に変動は以下のとおりです。\n";
 		$subject = 'アマゾン価格に変動がありました。';
 		$to = $this->mailAddress;

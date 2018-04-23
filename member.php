@@ -51,5 +51,5 @@ if ($flag_id === 'OK' && $flag_pw === 'OK') {
     $_SESSION['passwd'] = $passwd;
     $_SESSION['guestId'] = '';
 
-    header('Location: amazonFind.php');
+    header('Location: index.php');
 }

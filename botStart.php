@@ -18,8 +18,8 @@ function getMailAddress($loginId) {
 
 // echo "アマゾンの現在価格を調べます。\n";
 $mailAddress = getMailAddress($loginId);
-$myobj = new Bot($loginId, $mailAddress);
-$myobj->checkNow();
+$myobj = new Bot();
+$myobj->checkNow($loginId, $mailAddress);
 
 header('Location: index.php');
 

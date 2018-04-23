@@ -2,11 +2,19 @@
 
 require_once('Bot.php');
 
-$
+$arr = ['se-ichi' => 'billie175@gmail.com'];
+
 
 // echo "アマゾンの現在価格を調べます。\n";
-$myobj = new Bot($loginId);
-$myobj->checkNow();
+
+$myobj = new Bot();
+
+
+foreach($arr as $id => $email) {
+	
+	$myobj->checkNow($id, $email);
+}
+
 
 header('Location: index.php');
 

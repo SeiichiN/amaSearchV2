@@ -4,10 +4,18 @@ require_once('mylib.php');
 session_start();
 $_SESSION['guestId'] = 'guest';     // . $date("YmdHis");
 
+if (isset($_COOKIE['auth'])) {
+	if ($_COOKIE['auth'] == 'no') {
+		$msg = "ID か Password が違うようです。";
+		setcookie('auth', '', time() - 3600);
+	}
+}
+
 require_once('header.php');
 ?>
 
 <h1>ログイン</h1>
+<div class="notice"><?php if (isset($msg)) echo $msg; ?></div>
 <form action="member.php" method="post">
     <p>
         <label for="id">ID:</label>
