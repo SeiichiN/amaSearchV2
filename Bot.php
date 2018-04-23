@@ -9,13 +9,14 @@ require_once('mylib.php');
 require_once('PriceDB.php');
 require_once('IdLookup.php');
 require_once('mymail.php');
-require_once('UserDB.php');
 
 class Bot {
     private $loginId;
+	private $mailAddress;
 
-    public function __construct($loginId) {
+    public function __construct($loginId, $mailAddress) {
         $this->loginId = $loginId;
+		$this->mailAddress = $mailAddress;
     }
         
 	private function mkMailMsg($priceBit, $oldAmazonPrice, $newAmazonPrice) {
@@ -126,17 +127,11 @@ class Bot {
 		}
 		return $doMail;
 	}
-
-    private function getMailAddress() {
-        $mydb = new UserDB();
-        $email = $mydb->getMailAddress($this->loginId);
-        return $email;
-    }
         
 	public function checkNow() {
 		$mail_msg = "アマゾン価格に変動は以下のとおりです。\n";
 		$subject = 'アマゾン価格に変動がありました。';
-		$to = $this->getMailAddress(); 
+		$to = $this->mailAddress;
 	
 		$doMail = $this->chkPrice($mail_msg);
 		if ($doMail) {
