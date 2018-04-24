@@ -38,11 +38,21 @@ switch ($filename) {
                         <a href="index.php">TOP</a>
                     </div>
                     <div class="login-logout">
-                        <?php if(isset($loginId)) { ?>
+                        <?php if(!empty($loginId)) { ?>
                             <a href="logout.php">ログアウト</a>
                         <?php } else { ?>
                             <a href="login.php">ログイン</a>
                         <?php } ?>
+                    </div>
+					<div class="new-acount">
+                        <!--
+                        <form action="newmember.php" method="post">
+                            <button type="submit" name="newmember" value="new">
+                                新規ログインはこちら
+                            </button>
+                        </form>
+                        -->
+                        <a href="newmember.php">新規登録</a>
                     </div>
                 </div><!-- .sub-nav -->
                 <h1><a href="index.php">アマゾンサーチ</a></h1>

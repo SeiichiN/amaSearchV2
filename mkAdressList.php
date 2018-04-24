@@ -15,27 +15,30 @@ if (isset($_SESSION['loginId'])) {
 $myobj = new UserDB();
 $address = $myobj->getMailAddress($loginId);
 
-$data[$loginId] = $address;
-
-var_dump($data);
-echo "<br>\n";
+/* $data[$loginId] = $address;
+ * 
+ * var_dump($data);
+ * echo "<br>\n";*/
 
 $jsonUrl = "address.json";
 
 if (file_exists($jsonUrl)) {
 	$json = file_get_contents($jsonUrl);
-	$json = mb_convert_encoding($json, 'UTF8', 'ASCII,JIS,UTF-8,EUC-JP,SJIS-WIN');
+	$json = mb_convert_encoding($json, 'UTF-8', 'ASCII,JIS,UTF-8,EUC-JP,SJIS-WIN');
 	$arr = json_decode($json, true);
 } else {
     echo 'データがありません。';
 }
 
-var_dump($arr);
-echo "<br>\n";
+/* var_dump($arr);
+ * echo "<br>\n";*/
 
 $arr[$loginId] =  $address;
 
-var_dump($arr);
+// var_dump($arr);
 
-$arr = json_encode($arr);
+// アドレスの配列をjsonオブジェクトにして保存
+$arr = json_encode($arr, JSON_PRETTY_PRINT);
 file_put_contents("address.json", $arr);
+
+header('Location: index.php');

@@ -72,15 +72,6 @@ require_once('header.php');
         
         <?php foreach($result as $row) { ?>
             <div class="item">
-				<div class="asinId">
-                    ASIN:
-                    <form action="amazonLookup.php" method="post">
-                        <button type="submit" name="asin"
-                                value="<?php echo $row['id']; ?>">
-                            <?php echo $row['id']; ?>
-                        </button>
-                    </form>
-                </div>
                 <div class="title">
                     <a href="<?php echo $row['url']; ?>" target="_blank">
                         タイトル: <?php echo $row['title']; ?>
@@ -90,6 +81,9 @@ require_once('header.php');
                     <a href="<?php echo $row['url']; ?>" target="_blank">
                         <img src="<?php echo $row['image']; ?>" alt="">
                     </a>
+                </div>
+				<div class="asinId">
+                    ASIN:<?php echo $row['id']; ?>
                 </div>
 				<div class="officialPrice">
                     アマゾン価格: \<?php echo $row['officialPrice']; ?>
@@ -103,7 +97,14 @@ require_once('header.php');
 				<div class="collectiblePrice">
                     コレクション価格: \<?php echo $row['collectiblePrice']; ?>
                 </div>
-
+                <div class="watchBtn">
+                    <form action="amazonLookup.php" method="post">
+                        <button type="submit" name="asin"
+                                value="<?php echo $row['id']; ?>">
+							ウォッチする
+                        </button>
+                    </form>
+                </div>
             </div>
         <?php } ?>
     <?php } ?>

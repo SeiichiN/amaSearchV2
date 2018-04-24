@@ -2,6 +2,7 @@
 // login.php
 require_once('mylib.php');
 session_start();
+
 $_SESSION['guestId'] = 'guest';     // . $date("YmdHis");
 
 if (isset($_COOKIE['auth'])) {
@@ -27,13 +28,6 @@ require_once('header.php');
     </p>
     <input type="submit" value="ログイン">
 </form>
-<p>
-    <form action="newmember.php" method="post">
-        <button type="submit" name="newmember" value="new">
-            新規ログインはこちら
-        </button>
-    </form>
-</p>
 <?php require_once ('footer.php'); ?>
 
 
