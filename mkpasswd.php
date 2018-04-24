@@ -25,5 +25,5 @@ function generate_password($size) {
     return $pin;
 }
 
-print generate_password(8);
+// echo generate_password(8);
 ?>

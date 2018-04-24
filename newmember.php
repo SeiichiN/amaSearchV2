@@ -51,11 +51,6 @@ if (isset($_COOKIE['overlapEmail'])) {
         <span class="notice"><?php echo h($msg2); ?></span>
     </p>
     <p>
-        <label for="passwd">パスワードを決めてください。</label><br>
-        <input type="password" name="passwd" value="<?php echo h($passwd); ?>" id="passwd" required><br>
-        <small>このパスワードで次回からログインできます。</small>
-    </p>
-    <p>
         <input type="submit" value="決定">
     </p>
 </form>

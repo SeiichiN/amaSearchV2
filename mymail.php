@@ -1,5 +1,5 @@
 <?php
-// require_once ('vendor/autoload.php');
+require_once ('vendor/autoload.php');
 require_once ('mail_conf.php');
 use PHPMailer\PHPMailer\PHPMailer;
 
@@ -11,7 +11,7 @@ use PHPMailer\PHPMailer\PHPMailer;
  *         boolean.
  *       
  */
-function gmail($subject, $body, $to) {
+function gmail($subject, $body, $to, $reply) {
 	$from = GMAIL_ACCOUNT;
 	$pass = GMAIL_PASS;
 	$mail = new PHPMailer();
@@ -24,7 +24,7 @@ function gmail($subject, $body, $to) {
 	$mail->Username = $from;
 	$mail->Password = $pass;
 	$mail->setFrom($from, 'AmazonSearchBot');
-	$mail->addReplyTo($from, 'ASB Manager');
+	$mail->addReplyTo($reply);
 	$mail->addAddress($to);
 	$mail->Subject = $subject;
 	$mail->Body = $body;
