@@ -14,7 +14,7 @@ $passwd = !empty($_SESSION['passwd']) ? $_SESSION['passwd'] : '';
 if (isset($_COOKIE['overlapId'])) {
     if ($_COOKIE['overlapId'] == 'yes') {
 	    $msg1 = "そのログイン名はすでに使われています。";
-        $_COOKIE['overlapId'] = 'no';
+        setcookie('overlapId', '', time() - 3600);
     } else {
         $msg1 = '';
     }
@@ -22,7 +22,7 @@ if (isset($_COOKIE['overlapId'])) {
 if (isset($_COOKIE['overlapEmail'])) {
     if ($_COOKIE['overlapEmail'] == 'yes') {
         $msg2 = "そのE-mailアドレスはすでに使われています。";
-        $_COOKIE['overlapEmail'] = 'no';
+        setcookie('overlapEmail', '', time() -3600);
     } else {
         $msg2 = '';
     }
