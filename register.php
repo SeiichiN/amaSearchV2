@@ -14,7 +14,7 @@ function inform($member) {
 	$body = "AmazonSeeach にて、{$member['loginId']}さま"
 		  . "（実名：{$member['name']}さま）が登録されました。>\n"
 		  . "初期パスワードは「{$member['passwd']} 」です。>\n"
-		. 'http://192.168.11.64/amaSearchV2/tellPasswd.php 返事を送る';
+		. "http://192.168.11.64/amaSearchV2/tellPasswd.php?id={$member['loginId']} 返事を送る";
 	return gmail($subject, $body, $to, $reply);
 }
     
