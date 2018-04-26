@@ -88,5 +88,22 @@ class UserDB {
         }
         return $email;
     }
-
+	public function getPasswd($loginId) {
+		try {
+            $query = "select password from " . USER_TABLE . " where loginId = ?";
+            $stmt = $this->db->prepare($query);
+            $stmt->bindValue(1, $loginId, PDO::PARAM_STR);
+            $stmt->execute();
+            while($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                $passwd = $row['password'];
+            }
+		} catch (PDOException $e) {
+            echo "エラー: ", $e->getMessage();
+            echo "(File: ", $e->getFile(), ") ";
+            echo "(Line: ", $e->getLine(), ")\n";
+            die();
+        }
+        return $passwd;
+    }
+            
 }
