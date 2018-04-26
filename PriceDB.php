@@ -4,9 +4,7 @@
 
 // require_once('mylib.php');
 
-// const DBNAME = 'watchItem.db';
 const INDEX_TABLE = 'list';
-// const USER_TABLE = 'user';
 
 class PriceDB {
     private $db;

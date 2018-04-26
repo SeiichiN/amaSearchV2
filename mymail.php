@@ -1,6 +1,6 @@
 <?php
 require_once ('vendor/autoload.php');
-require_once ('mail_conf.php');
+require_once ('conf/mail_conf.php');
 use PHPMailer\PHPMailer\PHPMailer;
 
 /**

@@ -13,7 +13,7 @@ use ApaiIO\Configuration\GenericConfiguration;
 use ApaiIO\Operations\Search;
 use ApaiIO\ApaiIO;
 
-require_once('aws_conf.php');
+require_once('conf/aws_conf.php');
 
 require_once('mylib.php');
 
