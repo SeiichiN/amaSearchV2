@@ -16,7 +16,7 @@ class PriceDB {
 	// $loginName を引数にとることで、データベース名を
 	// <ログイン名>.db としている。
     function __construct($loginName) {
-        $dbname = 'sqlite:' . $loginName . '.db';
+        $dbname = 'sqlite:db/' . $loginName . '.db';
         $this->db = new PDO($dbname);
         // $db = new PDO('sqlite:watchItem.db');
         $this->db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);

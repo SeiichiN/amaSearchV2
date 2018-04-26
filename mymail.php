@@ -11,9 +11,10 @@ use PHPMailer\PHPMailer\PHPMailer;
  *         boolean.
  *       
  */
-function gmail($subject, $body, $to, $reply) {
+function gmail($subject, $body, $to, $reply = NULL) {
 	$from = GMAIL_ACCOUNT;
 	$pass = GMAIL_PASS;
+	if ($reply == NULL) $reply = $from;
 	$mail = new PHPMailer();
 	$mail->isSMTP();
 	$mail->CharSet = 'utf-8';

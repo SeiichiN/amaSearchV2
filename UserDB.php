@@ -7,7 +7,7 @@ class UserDB {
 	private $db;
 
 	function __construct() {
-		$this->db = new PDO('sqlite:user.db');
+		$this->db = new PDO('sqlite:db/user.db');
         $this->db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
 	    // USER_TABLEテーブルがなければ作る
