@@ -17,13 +17,13 @@ function gmail($subject, $body, $to, $reply) {
 	$mail = new PHPMailer();
 	$mail->isSMTP();
 	$mail->CharSet = 'utf-8';
-	$mail->Host = 'smtp.gmail.com';
-	$mail->Port = 587;
+	$mail->Host = SMTP_SERVER;
+	$mail->Port = SMTP_PORT;
 	$mail->SMTPSecure = 'tls';
 	$mail->SMTPAuth = true;
 	$mail->Username = $from;
 	$mail->Password = $pass;
-	$mail->setFrom($from, 'AmazonSearchBot');
+	$mail->setFrom($from, FROM_NAME);
 	$mail->addReplyTo($reply);
 	$mail->addAddress($to);
 	$mail->Subject = $subject;

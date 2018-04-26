@@ -105,5 +105,20 @@ class UserDB {
         }
         return $passwd;
     }
-            
+
+	public function setActivity($loginId) {
+		try {
+            $query = "update user set activity = 1 where loginId = ?";
+            $stmt = $this->db->prepare($query);
+            $stmt->bindValue(1, $loginId, PDO::PARAM_STR);
+            $stmt->execute();
+		} catch (PDOException $e) {
+            echo "エラー: ", $e->getMessage();
+            echo "(File: ", $e->getFile(), ") ";
+            echo "(Line: ", $e->getLine(), ")\n";
+            die();
+        }
+        return TRUE;
+    }
+
 }
