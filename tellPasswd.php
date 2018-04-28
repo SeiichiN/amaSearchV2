@@ -37,4 +37,3 @@ if (gmail($subject, $body, $to, $reply) ) {
 	echo "メール送信に失敗しました。";
 }
 
-?>

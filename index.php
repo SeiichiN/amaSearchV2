@@ -1,10 +1,10 @@
 <?php
 session_start();
 
-if (isset($_SESSION['loginId']))
+if (!empty($_SESSION['loginId']))
     $loginId = $_SESSION['loginId'];
 
-if (isset($_COOKIE['msg'])) {
+if (!empty($_COOKIE['msg'])) {
     $msg = $_COOKIE['msg'];
     setcookie('msg', '', time() - 3600);
 }

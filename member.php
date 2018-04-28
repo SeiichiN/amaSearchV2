@@ -23,18 +23,14 @@ $mydb = new UserDB();
 
 // ログイン名とパスワードを調べる。
 //    ['loginId', 'name', 'passwd', 'email']
-$flag_id = '';
-$flag_pw = '';
-if ($mydb->findUser('loginId', $loginId)) {
+$flag_id = 'NO';
+$flag_pw = 'NO';
+if ($mydb->findUser('loginId', $loginId))
     $flag_id = 'OK';
-} else {
-	$flag_id = 'NO';
-}
-if ($mydb->findUser('password', $passwd)) {
+
+if ($mydb->findUser('password', $passwd))
     $flag_pw = 'OK';
-} else {
-	$flag_pw = 'NO';
-}
+
 if ($flag_id == 'NO' || $flag_pw == 'NO') {
 	setcookie('auth', 'no');
 	header('Location: login.php');

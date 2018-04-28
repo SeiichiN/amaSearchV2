@@ -2,26 +2,16 @@
 // register.php
 require_once('UserDB.php');
 require_once('mylib.php');
-require_once('mkpasswd.php');
-require_once('mymail.php');
+require_once ('ManageUser.php');
 
 session_start();
 
-function inform($member) {
-	$to = 'billie175@gmail.com';
-	$reply = $member['email'];
-	$subject = '新規登録のお知らせ';
-	$body = "AmazonSeeach にて、{$member['loginId']}さま"
-		  . "（実名：{$member['name']}さま）が登録されました。>\n"
-		  . "初期パスワードは「{$member['passwd']} 」です。>\n"
-		. "http://" . SITE_URL . "tellPasswd.php?id={$member['loginId']} 返事を送る";
-	return gmail($subject, $body, $to, $reply);
-}
     
 if (!empty($_POST['name']) && !empty($_POST['email']) && !empty($_POST['id'])) {
 	$loginId = $_POST['id'];
 	$name = $_POST['name'];
 	$email = $_POST['email'];
+    // newmember.phpでユーザが入力した値を再表示できるように、覚えておく。
     $_SESSION['loginId'] = $loginId;
     $_SESSION['name'] = $name;
     $_SESSION['email'] = $email;
@@ -34,23 +24,16 @@ if (!empty($_POST['name']) && !empty($_POST['email']) && !empty($_POST['id'])) {
 $mydb = new UserDB();
 
 // ログイン名とメールアドレスに過去の重複がないかを調べる。
-//    ['loginId', 'name', 'passwd', 'email']
 $flag = 'OK';
-if ($mydb->findUser('loginId', $loginId)) {
+if ($mydb->existLoginId($loginId)) {
 	setcookie('overlapId', 'yes');
-    $flag = 'retry';
-} else {
-    if (isset($_COOKIE['overlapId']))
-        setcookie('overlapId', '', time() - 3600);
+    $flag = 'NO';
 }
-if ($mydb->findUser('email', $email)) {
-	setcookie('overlapEmail', 'yes');
-    $flag = 'retry';
-} else {
-    if (isset($_COOKIE['overlapEmail']))
-        setcookie('overlapEmail', '', time() - 3600);
+if ($mydb->existEmail($email)) {
+    setcookie('overlapEmail', 'yes');
+    $flag = 'NO';
 }
-if ($flag === 'retry') {
+if ($flag === 'NO') {
 	header('Location: newmember.php');
 	exit();    
 } else {
@@ -65,20 +48,18 @@ if ($flag === 'retry') {
 		];
 	$mydb->registUser($member);
 
+	$myManageUser = new ManageUser();
     // メンバー登録の報告をbillie175@gmail.comに送る。
-    if (inform($member))
+    if ($myManageUser->inform($member, 'billie175@gmail.com'))
         echo 'メール送信しました。';
     else
         echo 'メール送信に失敗しました。';
             
     // セッションIDの再作成
     session_regenerate_id(true);
-	$msg = "登録しました";
+    // セッション変数loginIdにログインIDを登録する。
+    $_SESSION['loginId'] = $loginId;
+
+    header('Location: afterRegist.php');
 }
 
-require_once('header.php');
-?>
-<h1><?php if (isset($msg)) echo $msg; ?></h1>
-<p>折り返し、管理人より登録されたメールアドレスに初期パスワードの連絡をお送りいたします。</p>
-<p>しばらくお待ちください。</p>
-<?php require_once('footer.php'); ?>

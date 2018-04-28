@@ -4,11 +4,12 @@ require_once ('conf/mail_conf.php');
 use PHPMailer\PHPMailer\PHPMailer;
 
 /**
- * @param: $subject
- *         $body
- *         $to -- send to.
+ * @params: string $subject
+ *          string $body
+ *          string $to -- send to.
+ *          string $reply -- 返信先。もし引数が指定されなかったらNULL。
  * @return:
- *         boolean.
+ *         boolean TRUE.
  *       
  */
 function gmail($subject, $body, $to, $reply = NULL) {

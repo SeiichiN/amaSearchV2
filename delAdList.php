@@ -15,8 +15,8 @@ $refererName = getRefere();
 
 $myobj = new ManageUser();
 
-if ($myobj->addAddressList($loginId))
-	$msg = "自動配信をセットしました。";
+if ($myobj->delAddressList($loginId))
+	$msg = "自動配信を解除しました。";
 else
 	$msg = "自動配信のセットが未完了です。";
 
