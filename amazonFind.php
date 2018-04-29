@@ -32,7 +32,8 @@ require_once('header.php');
     <label for="category">カテゴリ:</label>
     <select id="category" name="category">
         <?php foreach ($caList as $key => $word) { ?>
-            <option value="<?php echo $key; ?>" <?php if($key === $category) echo 'selected';?>>
+            <option value="<?php echo $key; ?>"
+                    <?php if(isset($category)) if($key === $category) echo 'selected';?>>
                 <?php echo $word; ?></option>
         <?php } ?>
     </select><br>

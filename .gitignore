@@ -1,4 +1,5 @@
 vendor
+db/*.db
 aws_conf.php
 kekka*.txt
 *.php#
