@@ -14,12 +14,13 @@ class ManageUser {
      * @return: boolean TRUE -- gmailに送ると、成功した場合 TRUE が帰ってくる。
      */
 	public function inform($member, $to) {
+		$myurl = getMyURL();
 		$reply = $member['email'];
 		$subject = '新規登録のお知らせ';
 		$body = "AmazonSeeach にて、{$member['loginId']}さま"
 			  . "（実名：{$member['name']}さま）が登録されました。>\n"
 			  . "初期パスワードは「{$member['passwd']} 」です。>\n"
-			  . "http://" . SITE_URL . "tellPasswd.php?id={$member['loginId']} 返事を送る";
+			  . $myurl . "tellPasswd.php?id={$member['loginId']} \n登録メールを送る。";
 		return gmail($subject, $body, $to, $reply);
 	}
 
