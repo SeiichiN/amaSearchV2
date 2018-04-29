@@ -5,16 +5,18 @@ require_once('mylib.php');
 
 session_start();
 
-if (isset($_COOKIE['overlapId']))
-    setcookie('overlapId', '', time() - 3600);
-if (isset($_COOKIE['overlapEmail']))
-    setcookie('overlapEmail', '', time() - 3600);
+$myurl = getMyURL();
 
-if (!empty($_POST['id']) && !empty($_POST['password'])) {
-	$loginId = $_POST['id'];
-	$passwd = $_POST['password'];
+// if (isset($_COOKIE['overlapId']))
+//     setcookie('overlapId', '', time() - 3600);
+// if (isset($_COOKIE['overlapEmail']))
+//     setcookie('overlapEmail', '', time() - 3600);
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+	$loginId = getPost('loginId');
+	$passwd = getPost('password');
 } else {
-	header('Location: login.php');
+	header('Location: '. $myurl . 'login.php');
 	exit();
 }
 
@@ -23,23 +25,22 @@ $mydb = new UserDB();
 
 // ログイン名とパスワードを調べる。
 //    ['loginId', 'name', 'passwd', 'email']
-$flag_id = 'NO';
-$flag_pw = 'NO';
-if ($mydb->findUser('loginId', $loginId))
-    $flag_id = 'OK';
+$flag = 'NO';
+if ($mydb->existLoginId($loginId)) {
+	if ($passwd === $mydb->getPasswd($loginId)) {
+		$flag = 'OK';
+	}
+}
 
-if ($mydb->findUser('password', $passwd))
-    $flag_pw = 'OK';
-
-if ($flag_id == 'NO' || $flag_pw == 'NO') {
-	setcookie('auth', 'no');
+if ($flag === 'NO') {
+	$_SESSION['auth'] = 'no';
 	header('Location: login.php');
 	exit();    
 }
-if ($flag_id === 'OK' && $flag_pw === 'OK') {
-	if (isset($_COOKIE['auth'])) {
-		setcookie('auth', '', time() - 3600);
-	}
+if ($flag === 'OK') {
+	if (isset($_SESSION['auth']))
+		$_SESSION['auth'] === '';
+
     // セッションIDの再作成
     session_regenerate_id(true);
 
@@ -47,5 +48,19 @@ if ($flag_id === 'OK' && $flag_pw === 'OK') {
     $_SESSION['passwd'] = $passwd;
     $_SESSION['guestId'] = '';
 
-    header('Location: index.php');
+    header('Location: '.$myurl.'index.php');
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+

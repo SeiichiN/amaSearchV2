@@ -1,32 +1,21 @@
 <?php
 // namespace billiesworks;
-
+require_once('mylib.php');
 require_once('IdLookup.php');
 
 session_start();
 
-if (isset($_SESSION['loginId']))
-    $loginId = $_SESSION['loginId'];
-else
-    header('Location: index.php');
+$loginId = checkLoginId();
 
-if (!empty($_POST['asin'])) {
-    $asin = $_POST['asin'];
-    setcookie('asin', $asin);
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $asin = getPost('asin');
+    $_SESSION['asin'] = $asin;
     // var_dump($asin);
     $myobj = new IdLookup();
 	$result = $myobj->getData($asin);
 }
 
-if (isset($_COOKIE['asin'])) {
-    $asin = $_COOKIE['asin'];
-    setcookie('asin', '', time() - 3600);
-}
-
-if (isset($_COOKIE['msg'])) {
-    $msg = $_COOKIE['msg'];
-    setcookie('msg', '', time() - 3600);
-}
+$msg = getSessionMsg();
 
 require_once('header.php');
 ?>

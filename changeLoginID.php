@@ -4,17 +4,14 @@ session_start();
 require_once('mylib.php');
 require_once('UserDB.php');
 
-if (!empty($_SESSION['loginId']))
-    $loginId = $_SESSION['loginId'];
-else
-	header('Location: index.php');
+$loginId = checkLoginId();
 
 $myobj = new UserDB();
 
 $flag = "";
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-	$newID = trim(getPost('newLoginId'));
+	$newID = getPost('newLoginId');
     if ($myobj->changeLoginId($loginId, $newID)) {
         $msg = "ログインIDを変更しました。";
         
@@ -23,14 +20,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $newFileName = 'db/' . $newID . '.db';
         if (rename($oldFileName, $newFileName)) {
             $msg= $msg . "データベース名も変更しました。";
-
-            // ログイン名とデータベース名を変更したので、
-            // 現在の表示を変更する。
-            $_SESSION['loginId'] = $newID;
-            $loginId = $newID;
-            
-            $flag = "OK";
         }
+
+		// ログイン名を変更したので、
+		// 現在の表示を変更する。
+		$_SESSION['loginId'] = $newID;
+		$loginId = $newID;
+        
+		$flag = "OK";
     } else {
         $msg = "ログインIDは変更できませんでした。";
     }

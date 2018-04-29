@@ -1,8 +1,9 @@
 <?php
+require_once('mylib.php');
+
 session_start();
 
-if (!empty($_SESSION['loginId']))
-	$loginId = $_SESSION['loginId']);
+$loginId = checkLoginId();
 
 require_once('header.php');
 ?>

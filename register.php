@@ -2,7 +2,8 @@
 // register.php
 require_once('UserDB.php');
 require_once('mylib.php');
-require_once ('ManageUser.php');
+require_once('ManageUser.php');
+require_once('conf/mail_conf.php');
 
 session_start();
 
@@ -20,21 +21,23 @@ if (!empty($_POST['name']) && !empty($_POST['email']) && !empty($_POST['id'])) {
 //	exit();
 }
 
+$myurl = getMyURL();
+
 // データベースに接続
 $mydb = new UserDB();
 
 // ログイン名とメールアドレスに過去の重複がないかを調べる。
 $flag = 'OK';
 if ($mydb->existLoginId($loginId)) {
-	setcookie('overlapId', 'yes');
+	$_SESSION['overlapId'] = 'yes';
     $flag = 'NO';
 }
 if ($mydb->existEmail($email)) {
-    setcookie('overlapEmail', 'yes');
+    $_SESSION['overlapEmail'] = 'yes';
     $flag = 'NO';
 }
 if ($flag === 'NO') {
-	header('Location: newmember.php');
+	header('Location: '.$myurl.'newmember.php');
 	exit();    
 } else {
     // 初期パスワードを生成する
@@ -50,16 +53,16 @@ if ($flag === 'NO') {
 
 	$myManageUser = new ManageUser();
     // メンバー登録の報告をbillie175@gmail.comに送る。
-    if ($myManageUser->inform($member, 'billie175@gmail.com'))
-        echo 'メール送信しました。';
+    if ($myManageUser->inform($member, SITE_MANAGER))
+        $_SESSION['msg'] = '新規登録の処理を始めています。';
     else
-        echo 'メール送信に失敗しました。';
+        $_SESSION['msg'] =  '新規登録がうまくいっていません。';
             
     // セッションIDの再作成
     session_regenerate_id(true);
     // セッション変数loginIdにログインIDを登録する。
     $_SESSION['loginId'] = $loginId;
 
-    header('Location: afterRegist.php');
+    header('Location: '.$myurl.'afterRegist.php');
 }
 

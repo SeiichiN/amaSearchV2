@@ -2,65 +2,39 @@
 // namespace billiesworks;
 require_once('mylib.php');
 require_once('KwSearch.php');
+require_once('category.php');
 
 session_start();
 
-if (isset($_SESSION['loginId'])) {
-    $loginId = $_SESSION['loginId'];
-} else {
-    header('Location: index.php');
-    exit();
-}
+$loginId = checkLoginId();
 
-if (!empty($_POST['category']) && !empty($_POST['keyword'])) {
-    $category = $_POST['category'];
-    $keyword = $_POST['keyword'];
-    setcookie('category', $category);
-    setcookie('keyword', $keyword);
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $category = getPost('category');
+    $keyword = getPost('keyword');
+    $_SESSION['category'] = $category;
+    $_SESSION['keyword'] = $keyword;
 	$myobj = new KwSearch();
     $result = $myobj->getData($category, $keyword);
 }
-if (isset($_COOKIE['category'])) $category = $_COOKIE['category'];
-if (isset($_COOKIE['keyword'])) $keyword = $_COOKIE['keyword'];
+
+if (isset($_SESSION['category'])) $category = $_SESSION['category'];
+if (isset($_SESSION['keyword'])) $keyword = $_SESSION['keyword'];
+
+$msg = getSessionMsg();
 
 require_once('header.php');
 ?>
 
-<div class="err"><?php if (isset($errmsg)) echo $errmsg; ?></div>
 <h1>キーワード・サーチ</h1>
+<div class="notice"><?php if (isset($msg)) echo $msg; ?></div>
 <p>探したいものはなんですか？</p>
 <form action="amazonFind.php" method="post">
     <label for="category">カテゴリ:</label>
     <select id="category" name="category">
-        <option value="All">全て</option>
-        <option value="Apparel">アパレル</option>
-        <option value="Automotive">Automotive</option>
-        <option value="Baby">ベビー&マタニティ</option>
-        <option value="Beauty">コスメ</option>
-        <option value="Blended">全て</option>
-        <option value="Books">本（和書）</option>
-        <option value="Classical">クラシック音楽</option>
-        <option value="DVD">ＤＶＤ</option>
-        <option value="Electronics">エレクトロニクス</option>
-        <option value="ForeignBooks">洋書</option>
-        <option value="Grocery">食品</option>
-        <option value="HealthPersonalCare">ヘルスケア</option>
-        <option value="Hobbies">ホビー</option>
-        <option value="HomeImprovement">HomeImprovement</option>
-        <option value="Industrial">Industrial</option>
-        <option value="Jewelry">ジュエリー</option>
-        <option value="Kitchen">ホーム&キッチン</option>
-        <option value="Music">音楽</option>
-        <option value="MusicTracks">曲名</option>
-        <option value="OfficeProducts">OfficeProducts</option>
-        <option value="Shoes">靴</option>
-        <option value="Software">ソフトウェア</option>
-        <option value="SportingGoods">スポーツ&アウトドア</option>
-        <option value="Toys">おもちゃ</option>
-        <option value="VHS">ＶＨＳ</option>
-        <option value="Video">ビデオ</option>
-        <option value="VideoGames">ゲーム</option>
-        <option value="Watches">時計</option>
+        <?php foreach ($caList as $key => $word) { ?>
+            <option value="<?php echo $key; ?>" <?php if($key === $category) echo 'selected';?>>
+                <?php echo $word; ?></option>
+        <?php } ?>
     </select><br>
     <label for="keyword">キーワード:</label>
     <input type="text" name="keyword" id="keyword"
@@ -98,7 +72,13 @@ require_once('header.php');
                     コレクション価格: \<?php echo $row['collectiblePrice']; ?>
                 </div>
                 <div class="watchBtn">
-                    <form action="amazonLookup.php" method="post">
+                    <form action="watchPrice.php" method="post">
+                        <input type="hidden" name="title" value="<?php echo $row['title']; ?>">
+                        <input type="hidden" name="officialPrice" value="<?php echo  $row['officialPrice']; ?>">
+                        <input type="hidden" name="newPrice" value="<?php echo  $row['newPrice']; ?>">
+                        <input type="hidden" name="usedPrice" value="<?php echo  $row['usedPrice']; ?>">
+                        <input type="hidden" name="collectiblePrice"
+                               value="<?php echo  $row['collectiblePrice']; ?>">
                         <button type="submit" name="asin"
                                 value="<?php echo $row['id']; ?>">
 							ウォッチする

@@ -3,6 +3,7 @@
 
 // require_once('mylib.php');
 require_once('PriceDB.php');
+require_once('mylib.php');
 
 session_start();
 
@@ -38,5 +39,21 @@ if(!empty($_POST['asin'])) {
 } else {
 	require_once('hungup.php');
 }
-header('Location: amazonLookup.php');
+$referer = getReferer();
+$myurl = getMyURL();
+
+header('Location: ' . $myurl . $referer .'.php');
 ?>
+
+
+
+
+
+
+
+
+
+
+
+
+

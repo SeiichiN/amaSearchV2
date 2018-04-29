@@ -5,12 +5,9 @@ require_once('mylib.php');
 require_once('UserDB.php');
 require_once('ManageUser.php');
 
-if (!empty($_SESSION['loginId']))
-    $loginId = $_SESSION['loginId'];
-else
-	header('Location: index.php');
+$loginId = checkLoginId();
 
-$msg = getCookieMsg();
+$msg = getSessionMsg();
 
 // フルネームとメールアドレスを取得
 $mydb = new UserDB();
@@ -34,9 +31,9 @@ require_once('header.php');
 <h1>アカウント設定</h1>
 <section>
     <h2>現在の設定</h2>
-    <div class="login-id">ログインID: <?php echo $loginId; ?></div>
-    <div class="full-name">おなまえ: <?php echo $fullName; ?></div>
-    <div class="email">メールアドレス: <?php echo $email; ?></div>
+    <div class="login-id">ログインID: <?php echo h($loginId); ?></div>
+    <div class="full-name">おなまえ: <?php echo h($fullName); ?></div>
+    <div class="email">メールアドレス: <?php echo h($email); ?></div>
     <div class="autoMail">価格の変動を知らせるメール: <?php echo $listIn; ?></div>
 </section>
 <nav>

@@ -6,23 +6,23 @@ session_start();
 
 $msg1 = '';
 $msg2 = '';
-$loginId = !empty($_SESSION['loginId']) ? $_SESSION['loginId'] : '';
-$name = !empty($_SESSION['name']) ? $_SESSION['name'] : '';
-$email = !empty($_SESSION['email']) ? $_SESSION['email'] : '';
-$passwd = !empty($_SESSION['passwd']) ? $_SESSION['passwd'] : '';
+$loginId = !empty($_SESSION['loginId']) ? $_SESSION['loginId'] : NULL;
+$name = !empty($_SESSION['name']) ? $_SESSION['name'] : NULL;
+$email = !empty($_SESSION['email']) ? $_SESSION['email'] : NULL;
+$passwd = !empty($_SESSION['passwd']) ? $_SESSION['passwd'] : NULL;
 
-if (isset($_COOKIE['overlapId'])) {
-    if ($_COOKIE['overlapId'] == 'yes') {
+if (isset($_SESSION['overlapId'])) {
+    if ($_SESSION['overlapId'] === 'yes') {
 	    $msg1 = "そのログイン名はすでに使われています。";
-        setcookie('overlapId', '', time() - 3600);
+		$_SESSION['overlapId'] = '';
     } else {
         $msg1 = '';
     }
 }
-if (isset($_COOKIE['overlapEmail'])) {
-    if ($_COOKIE['overlapEmail'] == 'yes') {
+if (isset($_SESSION['overlapEmail'])) {
+    if ($_SESSION['overlapEmail'] === 'yes') {
         $msg2 = "そのE-mailアドレスはすでに使われています。";
-        setcookie('overlapEmail', '', time() -3600);
+		$_SESSION['overlapEmail'] = '';
     } else {
         $msg2 = '';
     }

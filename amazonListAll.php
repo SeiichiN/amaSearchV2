@@ -7,10 +7,8 @@ session_start();
 require_once('mylib.php');
 require_once('PriceDB.php');
 
-if (isset($_SESSION['loginId']))
-    $loginId = $_SESSION['loginId'];
-else
-    header('Location: index.php');
+
+$loginId = checkLoginId();
 
 $mydb = new PriceDB($loginId);
 $lastData = $mydb->lastdata();
@@ -18,7 +16,6 @@ $lastData = $mydb->lastdata();
 require_once('header.php');
 ?>
 <h1>ウォッチ一覧</h1>
-<a href="amazonfind.php">キーワードで探す</a>
 <table>
     <tr>
         <th>ASIN</th>
@@ -41,6 +38,8 @@ require_once('header.php');
         </tr>
     <?php } ?>
 </table>
+<div class="link2find"><a href="amazonFind.php">キーワードで探す</a></div>
+
 <?php require_once('footer.php'); ?>
 
 

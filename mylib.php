@@ -66,6 +66,27 @@ function generate_password($size) {
     return $pin;
 }
 
+// SESSION変数からloginIdを知る
+function getLoginId() {
+	if (isset($_SESSION['loginId'])) {
+		$loginId = $_SESSION['loginId'];
+	} else {
+		$loginId = NULL;
+	}
+	return $loginId;
+}
+
+// loginIdがNULLならindex.phpへもどす
+function checkLoginId() {
+	$myurl = getMyURL();
+	if (($loginId = getLoginId()) === NULL) {
+		header('Location: '. $myurl . 'login.php');
+		exit();
+	} else {
+		return $loginId;
+	}
+}
+
 // POSTを受け取る
 function getPost($key) {
 	if (isset($_POST[$key])) {
@@ -84,18 +105,31 @@ function getCookieMsg() {
 		return NULL;
 	}
 }
+// SESSIONのmsgを受け取る
+function getSessionMsg() {
+	if (!empty($_SESSION['msg'])) {
+		$msg = trim($_SESSION['msg']);
+		$_SESSION['msg'] = '';
+		return $msg;
+	} else {
+		return NULL;
+	}
+}
 
 // refererを知る
-function getRefere() {
+function getReferer() {
 	$myPath = $_SERVER['HTTP_REFERER'];
 	return (pathinfo($myPath, PATHINFO_FILENAME));
 }
 
-// URLを知る
+/**
+ *  Summary: URLを知る
+ *           HTTP_HOST -- ホスト名
+ *           PHP_SELF  -- 実行中のスクリプト
+ *           dirname   -- 親フォルダのパスを取り出す
+ */
 function getMyURL() {
 	$myurl = 'http://' . $_SERVER['HTTP_HOST'] . dirname($_SERVER['PHP_SELF']) . '/';
 	return $myurl;
 }
-
-
 

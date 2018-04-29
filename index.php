@@ -1,13 +1,11 @@
 <?php
+require_once('mylib.php');
+
 session_start();
 
-if (!empty($_SESSION['loginId']))
-    $loginId = $_SESSION['loginId'];
+$loginId = checkLoginId();
 
-if (!empty($_COOKIE['msg'])) {
-    $msg = $_COOKIE['msg'];
-    setcookie('msg', '', time() - 3600);
-}
+$msg = getSessionMsg();
 
 require_once('header.php');
 

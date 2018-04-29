@@ -5,10 +5,9 @@ session_start();
 
 $_SESSION['guestId'] = 'guest';     // . $date("YmdHis");
 
-if (isset($_COOKIE['auth'])) {
-	if ($_COOKIE['auth'] == 'no') {
+if (isset($_SESSION['auth'])) {
+	if ($_SESSION['auth'] == 'no') {
 		$msg = "ID か Password が違うようです。";
-		setcookie('auth', '', time() - 3600);
 	}
 }
 
@@ -19,15 +18,14 @@ require_once('header.php');
 <div class="notice"><?php if (isset($msg)) echo $msg; ?></div>
 <form action="member.php" method="post">
     <p>
-        <label for="id">ID:</label>
-        <input type="text" name="id" id="id">
+        <label for="loginId">ID:</label>
+        <input type="text" name="loginId" id="loginId">
     </p>
     <p>
-        <label for="pw">Password:</label>
-        <input type="password" name="password" id="pw">
+        <label for="password">Password:</label>
+        <input type="password" name="password" id="password">
     </p>
     <input type="submit" value="ログイン">
 </form>
 <?php require_once ('footer.php'); ?>
-
 
