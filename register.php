@@ -13,9 +13,9 @@ if (!empty($_POST['name']) && !empty($_POST['email']) && !empty($_POST['id'])) {
 	$name = $_POST['name'];
 	$email = $_POST['email'];
     // newmember.phpでユーザが入力した値を再表示できるように、覚えておく。
-    $_SESSION['loginId'] = $loginId;
-    $_SESSION['name'] = $name;
-    $_SESSION['email'] = $email;
+    $_SESSION['tmp_loginId'] = $loginId;
+    $_SESSION['tmp_name'] = $name;
+    $_SESSION['tmp_email'] = $email;
 } else {
 //	header('Location: login.php');
 //	exit();
@@ -61,7 +61,7 @@ if ($flag === 'NO') {
     // セッションIDの再作成
     session_regenerate_id(true);
     // セッション変数loginIdにログインIDを登録する。
-    $_SESSION['loginId'] = $loginId;
+    // $_SESSION['loginId'] = $loginId;
 
     header('Location: '.$myurl.'afterRegist.php');
 }

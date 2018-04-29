@@ -6,10 +6,10 @@ session_start();
 
 $msg1 = '';
 $msg2 = '';
-$loginId = !empty($_SESSION['loginId']) ? $_SESSION['loginId'] : NULL;
-$name = !empty($_SESSION['name']) ? $_SESSION['name'] : NULL;
-$email = !empty($_SESSION['email']) ? $_SESSION['email'] : NULL;
-$passwd = !empty($_SESSION['passwd']) ? $_SESSION['passwd'] : NULL;
+$loginId = !empty($_SESSION['tmp_loginId']) ? $_SESSION['tmp_loginId'] : NULL;
+$name = !empty($_SESSION['tmp_name']) ? $_SESSION['tmp_name'] : NULL;
+$email = !empty($_SESSION['tmp_email']) ? $_SESSION['tmp_email'] : NULL;
+$passwd = !empty($_SESSION['tmp_passwd']) ? $_SESSION['tmp_passwd'] : NULL;
 
 if (isset($_SESSION['overlapId'])) {
     if ($_SESSION['overlapId'] === 'yes') {

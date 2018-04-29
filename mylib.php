@@ -79,7 +79,8 @@ function getLoginId() {
 // loginIdがNULLならindex.phpへもどす
 function checkLoginId() {
 	$myurl = getMyURL();
-	if (($loginId = getLoginId()) === NULL) {
+	$loginId = getLoginId();
+	if ($loginId  === NULL || $loginId === 'guest') {
 		header('Location: '. $myurl . 'login.php');
 		exit();
 	} else {

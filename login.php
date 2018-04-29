@@ -3,7 +3,7 @@
 require_once('mylib.php');
 session_start();
 
-$_SESSION['guestId'] = 'guest';     // . $date("YmdHis");
+$_SESSION['loginId'] = 'guest';     // . $date("YmdHis");
 
 if (isset($_SESSION['auth'])) {
 	if ($_SESSION['auth'] == 'no') {

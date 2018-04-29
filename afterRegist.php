@@ -3,7 +3,7 @@ require_once('mylib.php');
 
 session_start();
 
-$loginId = checkLoginId();
+$loginId = getLoginId();
 
 require_once('header.php');
 ?>
