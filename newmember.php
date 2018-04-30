@@ -34,24 +34,24 @@ if (isset($_SESSION['overlapEmail'])) {
 <form action="register.php" method="post">
 	<p>
         <label for="id">ログイン名を入力してください。</label><br>
-        <input type="text" name="id" value="<?php echo h($loginId); ?>" id="id" required><br>
+        <input type="text" name="id" value="<?php echo h($loginId); ?>" id="id" class="input-box" required><br>
         <small>ログイン時に表示される名前です。ニックネームでもいいです。<br>
             半角英数字でもＯＫです。</small><br>
         <span class="notice"><?php echo h($msg1); ?></span>
     </p>
     <p>
         <label for="name">お名前を入力してください。</label><br>
-        <input type="text" name="name" value="<?php echo h($name); ?>" id="name" required><br>
+        <input type="text" name="name" value="<?php echo h($name); ?>" id="name" class="input-box" required><br>
         <small>実名でおねがいします。</small>
     </p>
     <p>
         <label for="email">メールアドレスを入力してください。</label><br>
-        <input type="email" name="email" value="<?php echo h($email); ?>" id="email" required><br>
+        <input type="email" name="email" value="<?php echo h($email); ?>" id="email" class="input-box" required><br>
         <small>このメールアドレスに価格情報をお届けします。</small><br>
         <span class="notice"><?php echo h($msg2); ?></span>
     </p>
     <p>
-        <input type="submit" value="決定">
+        <input type="submit" value="決定" class="singleBtn">
     </p>
 </form>
 <?php require_once('footer.php'); ?>

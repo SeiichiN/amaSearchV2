@@ -33,27 +33,30 @@ require('header.php');
 ?>
 <div class="notice"><?php if (isset($msg)) echo $msg; ?></div>
 <?php if ($flag !== "OK") { ?>
-    <form action="" method="post">
-	    <p>
-	        現在のパスワードを入力してください。<br>
-	        <input type="password" name="oldPassword" id="oldPW" required
-	               value="<?php if (isset($oldPW)) echo $oldPW; ?>">
-	    </p>
-	    <p>
-	        新しいパスワードを入力してください。</br>
-	        <input type="password" name="newPassword" id="newPW" required
-                   value="<?php if (isset($newPW)) echo $newPW; ?>">
-	    </p>
-        <p>
-            確認のため、<br>
-	        もう一度新しいパスワードを入力してください。</br>
-	        <input type="password" name="renewPassword" id="renewPW" required
-                   value="<?php if (isset($renewPW)) echo $renewPW; ?>">
-	    </p>
-	    <p>
-	        <input type="submit" value="変更">
-	    </p>
-    </form>
+    <section class="setting">
+	    <h2>パスワードの変更</h2>
+        <form action="" method="post">
+	        <p>
+	            現在のパスワードを入力してください。<br>
+	            <input type="password" name="oldPassword" id="oldPW" class="input-box" required
+	                   value="<?php if (isset($oldPW)) echo h($oldPW); ?>">
+	        </p>
+	        <p>
+	            新しいパスワードを入力してください。</br>
+	            <input type="password" name="newPassword" id="newPW" class="input-box" required
+                       value="<?php if (isset($newPW)) echo h($newPW); ?>">
+	        </p>
+            <p>
+                確認のため、<br>
+	            もう一度新しいパスワードを入力してください。</br>
+	            <input type="password" name="renewPassword" id="renewPW" class="input-box" required
+                       value="<?php if (isset($renewPW)) echo h($renewPW); ?>">
+	        </p>
+	        <p>
+	            <input type="submit" value="変更" class="singleBtn">
+	        </p>
+        </form>
+	</section>
 <?php } ?>
 
 <?php require_once('footer.php'); ?>

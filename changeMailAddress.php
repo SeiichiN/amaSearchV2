@@ -34,19 +34,19 @@ require('header.php');
 ?>
 <div class="notice"><?php if (isset($msg)) echo $msg; ?></div>
 <?php if ($flag !== "OK") { ?>
-    <form action="" method="post">
-	    <p>
-	        現在のあなたのメールアドレス -- <?php echo $nowEmail; ?>
-	    </p>
-	    <p>
-	        新しいメールアドレスを入力してください。</br>
-	        <input type="text" name="newEmail" id="newEmail" required
+    <section class="setting">
+        <h2>メールアドレスの変更</h2>
+        <form action="" method="post">
+	        <div class="head">現在のあなたのメールアドレス</div>
+            <div class="address"><?php echo $nowEmail; ?></div>
+	        <div class="head">新しいメールアドレスを入力してください。</div>
+	        <input type="email" name="newEmail" id="newEmail" class="input-box" required
                    value="<?php if (isset($newEmail)) echo h($newEmail); ?>">
-	    </p>
-	    <p>
-	        <input type="submit" value="変更">
-	    </p>
-    </form>
+	        <p>
+	            <input type="submit" value="変更" class="singleBtn">
+	        </p>
+        </form>
+    </section>
 <?php } ?>
 
 <?php require_once('footer.php'); ?>

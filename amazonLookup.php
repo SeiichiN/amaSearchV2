@@ -24,10 +24,15 @@ require_once('header.php');
 <h1>商品番号サーチ</h1>
 <p>ASINを入力してください。</p>
 <form action="amazonLookup.php" method="post">
-    <label for="asin">ASIN:</label>
-    <input type="text" name="asin" id="asin"
-           value="<?php if (isset($asin)) echo $asin; ?>"><br>
-    <input type="submit" value="OK">
+	<div class="row">
+	    <div class="asin-box">
+	        <label for="asin">ASIN:</label><br>
+            <input type="text" name="asin" id="asin"
+                   value="<?php if (isset($asin)) echo h($asin); ?>">
+	    </div><!-- .asin-box -->
+	    
+        <input type="submit" value="検索">
+	</div><!-- .row -->
 </form>
 <section>
     <?php if (!empty($result)) { ?>
@@ -43,7 +48,7 @@ require_once('header.php');
             $collectiblePrice = $row['collectiblePrice'];
             $officialPrice = $row['officialPrice'];
         ?>
-            <form action="watchPrice.php" method="post">
+            <div class="item">
                 <div class="asinId">
                     ASIN: <?php echo $id; ?>
                 </div>
@@ -57,33 +62,45 @@ require_once('header.php');
                         <img src="<?php echo $image; ?>" alt="">
                     </a>
                 </div>
-				<div class="officialPrice">
-                    アマゾン価格: \<?php echo $officialPrice; ?>
-                    <input type="hidden" name="officialPrice" id="officialPrice"
-                           value="<?php echo $officialPrice; ?>">
-                </div>
-				<div class="newPrice">
-                    新品: \<?php echo $newPrice; ?>
-                    <input type="hidden" name="newPrice" id="newPrice"
-                           value="<?php echo $newPrice; ?>">
-                </div>
-                <div class="usedPrice">
-                    中古品: \<?php echo $usedPrice; ?>
-                    <input type="hidden" name="usedPrice" id="usedPrice"
-                           value="<?php echo $usedPrice; ?>">
-                </div>
-                <div class="collectiblePrice">
-                    コレクター商品: \<?php echo $collectiblePrice; ?>
-                    <input type="hidden" name="collectiblePrice" id="collectiblePrice"
-                           value="<?php echo $collectiblePrice; ?>">
-                </div>
-                <input type="hidden" name="asin" value="<?php echo $id; ?>">
-                <input type="hidden" name="title" value="<?php echo $title; ?>">
-                <input type="submit" value="ウォッチする">
-            </form>
+                <form action="watchPrice.php" method="post">
+                    <div class="row">
+                        <div class="price">
+				            <div class="officialPrice">
+                                アマゾン価格: \<?php echo $officialPrice; ?>
+                                <input type="hidden" name="officialPrice" id="officialPrice"
+                                       value="<?php echo $officialPrice; ?>">
+                            </div>
+				            <div class="newPrice">
+                                新品: \<?php echo $newPrice; ?>
+                                <input type="hidden" name="newPrice" id="newPrice"
+                                       value="<?php echo $newPrice; ?>">
+                            </div>
+                            <div class="usedPrice">
+                                中古品: \<?php echo $usedPrice; ?>
+                                <input type="hidden" name="usedPrice" id="usedPrice"
+                                       value="<?php echo $usedPrice; ?>">
+                            </div>
+                            <div class="collectiblePrice">
+                                コレクター商品: \<?php echo $collectiblePrice; ?>
+                                <input type="hidden" name="collectiblePrice" id="collectiblePrice"
+                                       value="<?php echo $collectiblePrice; ?>">
+                            </div>
+                        </div><!-- .price -->
+                        <div class="watchBtn">
+                            <input type="hidden" name="asin" value="<?php echo $id; ?>">
+                            <input type="hidden" name="title" value="<?php echo $title; ?>">
+                            <input type="submit" value="ウォッチする">
+                        </div><!-- .watchBtn -->
+                    </div><!-- .row -->
+                </form>
+            </div><!-- .item -->
         <?php } ?>
     <?php } ?>
 </section>
 <p><a href="amazonFind.php">アマゾンで探す</a></p>
 <?php require_once('footer.php'); ?>
+
+
+
+
 

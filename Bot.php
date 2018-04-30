@@ -9,6 +9,7 @@ require_once('mylib.php');
 require_once('PriceDB.php');
 require_once('IdLookup.php');
 require_once('mymail.php');
+require_once('conf/mail_conf.php');
 
 class Bot {
     private $loginId;
@@ -127,13 +128,14 @@ class Bot {
 		$this->loginId = $loginId;
 		$this->mailAddress = $mailAddress;
 
-		$mail_msg = "アマゾン価格に変動は以下のとおりです。\n";
+		$mail_msg = "アマゾン価格の変動は以下のとおりです。\n（このメールは自動配信です）\n\n";
 		$subject = 'アマゾン価格に変動がありました。';
 		$to = $this->mailAddress;
+		$replyto = REPLY_ADDRESS;
 	
 		$doMail = $this->chkPrice($mail_msg);
 		if ($doMail) {
-			if (!gmail($subject, $mail_msg, $to)) {
+			if (!gmail($subject, $mail_msg, $to, $replyto)) {
 				$msg = "メール送信に失敗しました。";
 			} else {
 				$msg = "メール送信しました。";
@@ -144,4 +146,3 @@ class Bot {
 		return $msg;
 	}
 }
-

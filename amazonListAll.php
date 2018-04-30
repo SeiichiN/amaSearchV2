@@ -15,29 +15,41 @@ $lastData = $mydb->lastdata();
 
 require_once('header.php');
 ?>
-<h1>ウォッチ一覧</h1>
-<table>
-    <tr>
-        <th>ASIN</th>
-        <th>タイトル</th>
-        <th>アマゾン価格</th>
-        <th>新品価格</th>
-        <th>中古価格</th>
-        <th>コレクション価格</th>
-        <th>登録日</th>
-    </tr>
+<section class="watchList">
+    <h1>ウォッチ一覧</h1>
+
+
     <?php foreach($lastData as $row) { ?>
-        <tr>
-            <td><?php echo $row['asin']; ?></td>
-            <td><?php echo $row['title']; ?></td>
-            <td><?php echo $row['official_p']; ?></td>
-            <td><?php echo $row['new_p']; ?></td>
-            <td><?php echo $row['used_p']; ?></td>
-            <td><?php echo $row['collectible_p']; ?></td>
-            <td><?php echo $row['date']; ?></td>
-        </tr>
+        <div class="item">
+            <!-- <div class="head">タイトル</div>  -->
+            <div class="title"><?php echo $row['title']; ?></div>
+            <div class="row">
+                <div class="head">ASIN</div>
+                <div><?php echo $row['asin']; ?></div>
+            </div>
+            <div class="row">
+                <div class="head">アマゾン価格</div>
+                <div class="price">\<?php echo $row['official_p']; ?></div>
+            </div>
+            <div class="row">
+                <div class="head">新品価格</div>
+                <div class="price">\<?php echo $row['new_p']; ?></div>
+            </div>
+            <div class="row">
+                <div class="head">中古価格</div>
+                <div class="price">\<?php echo $row['used_p']; ?></div>
+            </div>
+            <div class="row">
+                <div class="head">コレクション価格</div>
+                <div class="price">\<?php echo $row['collectible_p']; ?></div>
+            </div>
+            <div class="row">
+                <div class="head">登録日</div>
+                <div><?php echo $row['date']; ?></div>
+            </div>
+        </div><!-- .item -->
     <?php } ?>
-</table>
+</section>
 <div class="link2find"><a href="amazonFind.php">キーワードで探す</a></div>
 
 <?php require_once('footer.php'); ?>

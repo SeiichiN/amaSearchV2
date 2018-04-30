@@ -4,14 +4,9 @@ require_once('mylib.php');
 
 session_start();
 
-if (isset($_SESSION['loginId'])) {
-    $loginId = $_SESSION['loginId'];
-} else {
-    header('Location: index.php');
-    exit();
-}
+$loginId = checkLoginId();
 
-$refererName = getRefere();
+$refererName = getReferer();
 
 $myobj = new ManageUser();
 
@@ -20,6 +15,6 @@ if ($myobj->addAddressList($loginId))
 else
 	$msg = "自動配信のセットが未完了です。";
 
-setcookie('msg', $msg);
+$_SESSION['msg'] = $msg;
 $myurl = getMyURL();
 header("Location: {$myurl}{$refererName}.php");
