@@ -96,6 +96,14 @@ function getPost($key) {
 	}
 }
 
+// GETを受け取る
+function getGet($key) {
+	if (isset($_GET[$key])) {
+		$val = trim(h($_GET[$key]));
+		return $val;
+	}
+}
+
 // COOKIEのmsgを受け取る
 function getCookieMsg() {
 	if (!empty($_COOKIE['msg'])) {
@@ -133,5 +141,18 @@ function getMyURL() {
 	$myurl = 'http://' . $_SERVER['HTTP_HOST'] . dirname($_SERVER['PHP_SELF']) . '/';
 	return $myurl;
 }
+
+
+// COOKIEを受け取る
+function getCookie($key) {
+	if (!empty($_COOKIE[$key])) {
+		$val = trim($_COOKIE[$key]);
+		setcookie($key, '', time() - 3600);
+		return $val;
+	} else {
+		return NULL;
+	}
+}
+
 
 

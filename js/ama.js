@@ -42,3 +42,22 @@ function navToggle() {
 
 // 指定IDをクリックした際に関数を実行
 document.getElementById('nav-toggle').onclick = navToggle;
+
+// ----------------------------------------------------------
+// クリックしたところの asin を取得する
+/* function getAsin() {
+ * 
+ *     var asin = document.getElementById("asinNo").value;
+ *     console.log('asin= ' + asin);
+ *     
+ *     setCookie('asin', asin);
+ * }
+ * 
+ * function setCookie(cookie, value) {
+ *     var tmp = cookie + "=" + encodeURI(value) + ";path=/";
+ *     document.cookie = tmp;
+ *     console.log(cookie + ":" + value);
+ * }
+ * 
+ * document.getElementById('asinNo').onclick = getAsin;*/
+

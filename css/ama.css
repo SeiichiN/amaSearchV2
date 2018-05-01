@@ -186,6 +186,17 @@ select {
     padding: 2px;
 }
 
+/* ----------------------------------------------
+   showItem  価格の推移
+   ---------------------------------------------- */
+.cssgrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(56px, 1fr));
+    grid-auto-rows: 1fr;
+}
+
+
+
 
 /*---------------------------------------------
   Hamburger Nav

@@ -181,6 +181,35 @@ class PriceDB {
         return $lastData;
     }
 
-	
+	/**
+	 * Summary: 各商品の価格変動の一覧を返す
+	 *          'officialPrice', 'newPrice', 'usedPrice', 'collectiblePrice', 'date'
+	 *
+	 * @params: string $asin -- 商品番号
+	 *
+	 * @return: array $transPrice
+     *
+     * id          asin        official_p  new_p       used_p      collectible_p  date
+	 * ----------  ----------  ----------  ----------  ----------  -------------  ----------------
+     * 1           4873117763  3888        3888        3599        0              2018-04-22 21:57
+	 * 2           4873117763  3888        3888        3599        -1             2018-04-22 21:57
+	 * 3           4873117763  3888        3888        3265        -1             2018-04-23 03:36
+	 * 4           4873117763  3888        3888        3007        -1             2018-04-30 18:29
+	 */
+	function transPrice($asin) {
+		$trPrice = [];
+		$tablename = 'db_' . $asin;
+		
+        // テーブル db_$asin から、データを取得。
+        $query = "select * from $tablename";
+        $stmt = $this->db->query($query);
+		while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+
+            // 配列をそのままぶちこむ。
+            array_push($trPrice, $row);
+
+		}
+        return $trPrice;
+    }
 }
 ?>

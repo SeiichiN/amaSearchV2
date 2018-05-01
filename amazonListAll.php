@@ -22,7 +22,14 @@ require_once('header.php');
     <?php foreach($lastData as $row) { ?>
         <div class="item">
             <!-- <div class="head">タイトル</div>  -->
-            <div class="title"><?php echo $row['title']; ?></div>
+            <div class="title">
+                <form action="showItem.php" method="post">
+                    <input type="hidden" name="title" value="<?php echo $row['title']; ?>">
+                    <button type="submit" name="asinNo" value="<?php echo $row['asin']; ?>">
+                        <?php echo $row['title']; ?>
+                    </button>
+                </form>
+            </div>
             <div class="row">
                 <div class="head">ASIN</div>
                 <div><?php echo $row['asin']; ?></div>
@@ -53,5 +60,3 @@ require_once('header.php');
 <div class="link2find"><a href="amazonFind.php">キーワードで探す</a></div>
 
 <?php require_once('footer.php'); ?>
-
-

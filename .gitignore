@@ -1,5 +1,4 @@
 vendor
-db/
 aws_conf.php
 kekka*.txt
 *.php#
@@ -14,3 +13,5 @@ memo.txt
 test.php
 write.php
 trash
+conf
+db
