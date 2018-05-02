@@ -19,6 +19,15 @@ set_error_handler(
 	}
 );
 
+function putErrorLog($e) {
+	$logtime = date('Y-m-d_His');
+	$log = 'log/error_' . $logtime . '.log';
+	$msg = 'エラー:' . $e->getMessage();
+	$msg = $msg . '(File:' . $e->getFile() . ')';
+	$msg = $msg . '(Line:' . $e->getLine() . ")\n";
+	return error_log($msg, 3, $log);
+}
+
 function h ($str) {
 	return htmlspecialchars($str, ENT_QUOTES, "UTF-8");
 }

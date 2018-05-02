@@ -147,10 +147,9 @@ select {
 .watchList .head {
     width: 50%;
 }
-.watchList .title {
-    border-bottom: solid 1px #aaa;
+.watchList button {
+    width: 100%;
 }
-
 
 /* --------------------------------------------
    Setting Acount
@@ -189,10 +188,33 @@ select {
 /* ----------------------------------------------
    showItem  価格の推移
    ---------------------------------------------- */
+.showItem-header * {
+    margin: 0;
+    padding: 0;
+}
+.showItem-header {
+    margin-bottom: 10px;
+}
+.showItem-header h1 {
+    font-size: 1em;
+}
+.showItem-header h2 {
+    font-size: 1.2em;
+}
+
 .cssgrid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(56px, 1fr));
     grid-auto-rows: 1fr;
+}
+.row-head {
+    font-size: 0.8em;
+}
+.row-head .yen {
+    font-size: 0.8em;
+}
+.row-item .date {
+    font-size: 0.8em;
 }
 
 

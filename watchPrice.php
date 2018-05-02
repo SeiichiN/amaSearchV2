@@ -5,6 +5,7 @@
 require_once('PriceDB.php');
 require_once('mylib.php');
 
+ini_set('session.cookie_httponly', true);
 session_start();
 
 if (isset($_SESSION['loginId']))

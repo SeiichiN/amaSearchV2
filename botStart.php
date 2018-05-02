@@ -3,7 +3,9 @@ require_once('mylib.php');
 require_once('Bot.php');
 require_once('UserDB.php');
 
+ini_set('session.cookie_httponly', true);
 session_start();
+
 
 $loginId = checkLoginId();
 

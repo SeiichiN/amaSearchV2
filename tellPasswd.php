@@ -7,16 +7,18 @@ require_once('conf/mail_conf.php');
 
 $mydb = new UserDB();
 
-echo "接続できてるよ。\n";
+require_once('header.php');
+
+echo "接続OK ";
 
 if ($_SERVER['REQUEST_METHOD'] === 'GET')
 	$loginId = $_GET['id'];
 
-echo "loginId = {$loginId}\n";
+echo "loginId = {$loginId} ";
 
 $passwd = $mydb->getPasswd($loginId);
 
-echo "passwd = {$passwd}\n";
+echo "passwd = {$passwd} ";
 
 $subject = "登録のお知らせ";
 
@@ -32,8 +34,9 @@ $reply = REPLY_ADDRESS;
 if (gmail($subject, $body, $to, $reply) ) {
 	echo "メール送信しました。";
 	if ($mydb->setActivity($loginId))
-		echo "成功しました。";
+		echo "アクティビティに1をセットしました。";
 } else {
 	echo "メール送信に失敗しました。";
 }
 
+require_once('footer.php');

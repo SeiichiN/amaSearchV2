@@ -2,7 +2,7 @@
 // namespace billiesworks
 // priceDB.php
 
-// require_once('mylib.php');
+require_once('mylib.php');
 
 const INDEX_TABLE = 'list';
 
@@ -25,6 +25,11 @@ class PriceDB {
 	    $stmt = $this->db->query($query);
     }
 
+	private function getTableName($asin) {
+		$tablename = 'db_' . $asin;
+        return $tablename;
+    }
+
     /**
      * db_index
      * 
@@ -37,6 +42,16 @@ class PriceDB {
      *         $title -- タイトル.
      *
      * @return: $db.
+     *
+     * ----------------------------------------------------------------------------
+     * id          asin        table_name     title                                
+     * ----------  ----------  -------------  -------------------------------------
+     * 1           4063528650  db_4063528650  長濱ねる1st写真集 ここから
+     * 2           4873117763  db_4873117763  Docker                               
+     * 3           4873116864  db_4873116864  Web API: The Good Parts              
+     * 4           B01HM6KK6S  db_B01HM6KK6S  (フルグロウ) Full Glow トート
+     * 5           4798151645  db_4798151645  PHPの絵本 第2版 Webアプリ作
+     * ----------------------------------------------------------------------------
      */
     function db_index($asin, $dbtable, $title) {
 
@@ -117,11 +132,14 @@ class PriceDB {
 		    }
 
 		    // テーブルがあるということは、テーブル一覧(list)に登録されているってこと。
+            // いや、それはわからん。list から削除できても、テーブルが残っていることも
+            // ありうる。
             if ($aru) {
-                $msg = "この商品はすでに登録されてます。";
+                $this->deleteTable($asin);
+                $msg = "この商品のデータがあったので、削除しました。もう一度作成作業をしてください。";
             } else {
-                $msg =  "この商品を登録しました。";
                 $this->db_index($asin, $tablename, $title);
+                $msg =  "この商品を登録しました。";
             }
 			$_SESSION['msg'] = $msg;
 		    
@@ -142,6 +160,7 @@ class PriceDB {
             echo "エラー: ", $e->getMessage();
             echo "(File: ", $e->getFile(), ") ";
             echo "(Line: ", $e->getLine(), ")\n";
+            putErrorLog($e);
             die();
         }
 
@@ -211,5 +230,56 @@ class PriceDB {
 		}
         return $trPrice;
     }
+
+	/**
+	 * Summary: アイテムを削除する.
+	 *
+	 * @params: string $asin.
+	 *
+	 * @return: boolean TRUE or FALSE.
+	 */
+	function deleteTable($asin) {
+		// そのアイテムの追跡をしないのだから、テーブルを削除。
+		$tablename = $this->getTableName($asin);
+        try {
+//            $this->db->exec("BEGIN EXCLUSIVE;");
+            $query = "drop table if exists " . $tablename;
+            $stmt = $this->db->query($query);
+            $stmt->execute();
+        } catch (PDOException $e) {
+//            $this->db->exec("ROLLBACK;");
+            /* echo "エラー: ", $e->getMessage();
+             * echo "(File: ", $e->getFile(), ") ";
+             * echo "(Line: ", $e->getLine(), ")\n";*/
+            putErrorLog($e);
+            return FALSE;
+        }
+//         $this->db->exec("COMMIT;");
+        return TRUE;
+	}
+
+    /**
+     * Summary: テーブル list から、Itemのエントリを削除する。
+     *          ウォッチする Item は、このリストにエントリされている.
+     *
+     * @params: string $asin
+     *
+     * @return: boolen
+     */
+    function deleteFromList($asin) {
+        $query = "delete from ". INDEX_TABLE . " where asin = '" . $asin . "'";
+        try {
+            $stmt = $this->db->query($query);
+            $stmt->execute();
+        } catch (PDOException $e) {
+            /* echo "エラー: ", $e->getMessage();
+             * echo "(File: ", $e->getFile(), ") ";
+             * echo "(Line: ", $e->getLine(), ")\n";*/
+            putErrorLog($e);
+            return FALSE;
+        }
+        return TRUE;
+    }    
+	
 }
 ?>

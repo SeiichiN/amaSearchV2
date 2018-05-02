@@ -2,6 +2,7 @@
 // namespace billiesworks
 
 // amazonListAll.php
+ini_set('session.cookie_httponly', true);
 session_start();
 
 require_once('mylib.php');

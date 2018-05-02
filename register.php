@@ -5,6 +5,7 @@ require_once('mylib.php');
 require_once('ManageUser.php');
 require_once('conf/mail_conf.php');
 
+ini_set('session.cookie_httponly', true);
 session_start();
 
     

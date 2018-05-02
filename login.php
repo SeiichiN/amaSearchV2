@@ -1,6 +1,8 @@
 <?php
 // login.php
 require_once('mylib.php');
+
+ini_set('session.cookie_httponly', true);
 session_start();
 
 $_SESSION['loginId'] = 'guest';     // . $date("YmdHis");
