@@ -4,25 +4,39 @@ require_once('UserDB.php');
 require_once('lib/mylib.php');
 require_once('ManageUser.php');
 require_once('conf/mail_conf.php');
+require_once('lib/MyValidator.php');
 
 ini_set('session.cookie_httponly', true);
 session_start();
 
-    
-if (!empty($_POST['name']) && !empty($_POST['email']) && !empty($_POST['id'])) {
-	$loginId = $_POST['id'];
-	$name = $_POST['name'];
-	$email = $_POST['email'];
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+	$loginId = getPost('id');
+	$name = getPost('name');
+	$email = getPost('email');
     // newmember.phpでユーザが入力した値を再表示できるように、覚えておく。
     $_SESSION['tmp_loginId'] = $loginId;
     $_SESSION['tmp_name'] = $name;
     $_SESSION['tmp_email'] = $email;
 } else {
-//	header('Location: login.php');
-//	exit();
+	$myurl = getMyURL();
+	$referer = getReferer();
+	header('Location: ' . $myurl . $referer . '.php');
+	exit();
 }
 
 $myurl = getMyURL();
+
+// 入力値のチェック
+$v = new MyValidator();
+$v->lengthCheck($loginId, 'ログイン名', 20);
+$v->lengthCheck($name, 'お名前', 30);
+$v->lengthCheck($email, 'メールアドレス', 50);
+$err = $v();
+if ($err) {
+	$_SESSION['error'] = $err;
+	header ('Location: '.$myurl.'newmember.php');
+	exit();
+}
 
 // データベースに接続
 $mydb = new UserDB();
@@ -66,4 +80,3 @@ if ($flag === 'NO') {
 
     header('Location: '.$myurl.'afterRegist.php');
 }
-

@@ -2,6 +2,7 @@
 // member.php
 require_once('UserDB.php');
 require_once('lib/mylib.php');
+require_once('lib/MyValidator.php');
 
 ini_set('session.cookie_httponly', true);
 session_start();
@@ -18,6 +19,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 	$passwd = getPost('password');
 } else {
 	header('Location: '. $myurl . 'login.php');
+	exit();
+}
+
+// 入力値のチェック
+$v = new MyValidator();
+$v->lengthCheck($loginId, 'ログイン名', 20);
+$v->lengthCheck($passwd, 'パスワード', 20);
+$err = $v();
+if ($err) {
+	$_SESSION['error'] = $err;
+	header ('Location: '.$myurl.'login.php');
 	exit();
 }
 

@@ -137,6 +137,7 @@ function getSessionMsg() {
 }
 
 // refererを知る
+// 拡張子を除いたファイル名を返す
 function getReferer() {
 	$myPath = $_SERVER['HTTP_REFERER'];
 	return (pathinfo($myPath, PATHINFO_FILENAME));
@@ -165,5 +166,25 @@ function getCookie($key) {
 	}
 }
 
+// SESSIONを受け取る
+function getSession($key) {
+	if (!empty($_SESSION[$key])) {
+		$val = $_SESSION[$key];
+		return $val;
+	} else {
+		return NULL;
+	}
+}
 
+// バリデートでのエラーを表示する
+function prValidateError($valiMsg) {
+	if (isset($valiMsg)) {
+        print '<ul class="errorMsg" style="color:Red">';
+        foreach ($valiMsg as $errmsg) {
+            print "<li>{$errmsg}</li>";
+        }
+        print '</ul>';
+        $_SESSION['error'] = NULL;
+    }
+}
 

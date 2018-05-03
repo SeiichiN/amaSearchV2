@@ -13,7 +13,7 @@ require_once('header.php');
 ?>
 <h1>メニュー</h1>
 <div class="notice"><?php if (isset($msg)) echo $msg; ?></div>
-<nav>
+<nav class="main-menu">
     <ul>
         <li><a href="amazonFind.php">キーワードで検索</a></li>
         <li><a href="amazonLookup.php">商品番号ASINで検索</a></li>

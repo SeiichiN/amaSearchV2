@@ -117,12 +117,24 @@ class MyValidator {
     // プライベート変数_errorsにエラー情報が含まれる場合にはリスト表示
     public function __invoke() {
         if (count($this->_errors) > 0) {
-            print '<ul style="color:Red">';
-            foreach ($this->_errors as $err) {
-                print "<li>{$err}</li>";
-            }
-            print '</ul>';
-            die();
+			return $this->_errors;
+            // print '<ul style="color:Red">';
+            // foreach ($this->_errors as $err) {
+            //     print "<li>{$err}</li>";
+            // }
+            // print '</ul>';
+            // die();
         }
+		return FALSE;
     }
 }
+
+
+
+
+
+
+
+
+
+

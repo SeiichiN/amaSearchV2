@@ -14,7 +14,7 @@
         <div id="wrap">
             <header>
 	            <div class="loginId"><?php if(isset($loginId)) echo $loginId, 'さん'; ?></div>
-                <nav class="hamburger-nav">
+                <nav class="hamburger-nav sub-menu">
 	                <button type="button" id="nav-toggle" class="nav-toggle-button close"></button>
                     <ul id="nav-list" class="nav-list close">
                         <li><a href="index.php">TOP</a></li>
