@@ -5,10 +5,10 @@
 
 // require_once 'vendor/autoload.php';
 
-require_once('mylib.php'); 
+require_once('lib/mylib.php'); 
 require_once('PriceDB.php');
 require_once('IdLookup.php');
-require_once('mymail.php');
+require_once('lib/mymail.php');
 require_once('conf/mail_conf.php');
 
 class Bot {
@@ -76,6 +76,7 @@ class Bot {
 		$doMail = FALSE;
 
 		$mydb = new PriceDB($this->loginId);
+		// 価格データベースの最新価格を取得する
 		$lastDBdata = $mydb->lastData();
 
 		$mylookup = new IdLookup();

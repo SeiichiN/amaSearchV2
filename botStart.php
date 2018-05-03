@@ -1,5 +1,5 @@
 <?php
-require_once('mylib.php');
+require_once('lib/mylib.php');
 require_once('Bot.php');
 require_once('UserDB.php');
 

@@ -15,9 +15,9 @@ use ApaiIO\ApaiIO;
 
 require_once('conf/aws_conf.php');
 
-require_once('mylib.php');
+require_once('lib/mylib.php');
 
-require_once('mkGuzzleRequest.php');
+require_once('lib/mkGuzzleRequest.php');
 
 /**
  * amazonSearch: アマゾンを検索する
@@ -113,10 +113,12 @@ class AmazonSearch {
 			}
 			
 		} catch (ErrorException $e) {
-			echo "エラー：{$e->getMessage()}\n";
-			echo "(File: {$e->getFile()})\n";
-			echo "(Line: {$e->getLine()})\n";
-			die();
+			// echo "エラー：{$e->getMessage()}\n";
+			// echo "(File: {$e->getFile()})\n";
+			// echo "(Line: {$e->getLine()})\n";
+			// die();
+            putErrorLog($e);
+			return FALSE;
 		}
 		return $data;
 	}

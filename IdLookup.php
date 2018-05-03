@@ -11,7 +11,7 @@ require_once('vendor/autoload.php');
 
 use ApaiIO\Operations\Lookup;
 
-require_once('mylib.php');
+require_once('lib/mylib.php');
 
 require_once('AmazonSearch.php');
 

@@ -1,6 +1,6 @@
 <?php
 // namespace billiesworks;
-require_once('mylib.php');
+require_once('lib/mylib.php');
 require_once('IdLookup.php');
 
 ini_set('session.cookie_httponly', true);
@@ -98,7 +98,7 @@ require_once('header.php');
         <?php } ?>
     <?php } ?>
 </section>
-<p><a href="amazonFind.php">アマゾンで探す</a></p>
+<p><a href="amazonFind.php">キーワードで探す</a></p>
 <?php require_once('footer.php'); ?>
 
 

@@ -4,7 +4,7 @@
 ini_set('session.cookie_httponly', true);
 session_start();
 
-require_once('mylib.php');
+require_once('lib/mylib.php');
 require_once('PriceDB.php');
 
 

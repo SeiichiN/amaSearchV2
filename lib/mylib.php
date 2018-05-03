@@ -2,13 +2,15 @@
 // namespace billiesworks
 
 function exception_handler($exception) {
-	echo "捕捉できない例外: " , $exception->getMessage();
-	echo "(File: ", $exception->getFile(), ")";
- 	echo "(Line: ", $exception->getLine(), ")\n";
-	echo "処理が集中しています。再度おねがいします。";
-	sleep(3);
-//	header('Location: hungup.php');
-	exit();
+	$logtime = date('Y-m-d_His');
+	$log = 'log/error_' . $logtime . '.log';
+	
+	$msg = "捕捉できない例外: " . $exception->getMessage();
+	$msg = $msg . "(File: " . $exception->getFile() . ")";
+ 	$msg = $msg .  "(Line: " . $exception->getLine() . ")\n";
+	sleep(1);
+	return error_log($msg, 3, $log);
+	// exit();
 }
 
 set_exception_handler('exception_handler');
@@ -99,7 +101,7 @@ function checkLoginId() {
 
 // POSTを受け取る
 function getPost($key) {
-	if (isset($_POST[$key])) {
+	if (!empty($_POST[$key])) {
 		$val = trim($_POST[$key]);
 		return $val;
 	}
@@ -107,7 +109,7 @@ function getPost($key) {
 
 // GETを受け取る
 function getGet($key) {
-	if (isset($_GET[$key])) {
+	if (!empty($_GET[$key])) {
 		$val = trim(h($_GET[$key]));
 		return $val;
 	}

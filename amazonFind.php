@@ -1,6 +1,6 @@
 <?php
 // namespace billiesworks;
-require_once('mylib.php');
+require_once('lib/mylib.php');
 require_once('KwSearch.php');
 require_once('category.php');
 

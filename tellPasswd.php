@@ -1,8 +1,8 @@
 <?php
 // tellPasswd.php
-require_once('mylib.php');
+require_once('lib/mylib.php');
 require_once('UserDB.php');
-require_once('mymail.php');
+require_once('lib/mymail.php');
 require_once('conf/mail_conf.php');
 
 $mydb = new UserDB();

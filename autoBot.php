@@ -6,7 +6,7 @@ $myobj = new Bot();
 
 $jsonUrl = "address.json";
 
-echo "価格を調べています...\n";
+$msg = "価格を調べています...\n";
 
 if (file_exists($jsonUrl)) {
 	$json = file_get_contents($jsonUrl);
@@ -14,9 +14,14 @@ if (file_exists($jsonUrl)) {
 	$obj = json_decode($json, true);
 
 	foreach ($obj as $id => $email) {
-		$msg = $myobj->checkNow($id, $email);
-		echo $msg, "\n";
+		$msg = $msg . $myobj->checkNow($id, $email);
+		$msg = $msg . "\n";
 	}
 } else {
-	echo 'データがありません。';
+	$msg = $msg .  'データがありません。';
 }
+
+// ログ出力
+$logtime = date("Y-m-d_His");
+$log = 'log/report_' . $logtime . '.log';
+error_log($msg, 3, $log);

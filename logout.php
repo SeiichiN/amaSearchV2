@@ -2,6 +2,8 @@
 ini_set('session.cookie_httponly', true);
 session_start();
 
+require_once('lib/mylib.php');
+
 
 $_SESSION = [];
 if (isset($_COOKIE[session_name()])) {
@@ -11,10 +13,7 @@ if (isset($_COOKIE[session_name()])) {
 			  $cparam['secure'], $cparam['httponly']);
 }
 
-setcookie('category', '', time() - 3600);
-setcookie('asin', '', time() - 3600);
-setcookie('keyword', '', time() - 3600);
+$myurl = getMyURL();
 
-
-header('Location: index.php');
+header('Location: '.$myurl.'index.php');
 

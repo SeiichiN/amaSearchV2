@@ -2,7 +2,7 @@
 // namespace billiesworks
 // priceDB.php
 
-require_once('mylib.php');
+require_once('lib/mylib.php');
 
 const INDEX_TABLE = 'list';
 
@@ -16,7 +16,6 @@ class PriceDB {
     function __construct($loginName) {
         $dbname = 'sqlite:db/' . $loginName . '.db';
         $this->db = new PDO($dbname);
-        // $db = new PDO('sqlite:watchItem.db');
         $this->db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
 	    // listテーブルがなければ作る
@@ -26,7 +25,7 @@ class PriceDB {
 			$stmt = $this->db->query($query);
         } catch (PDOException $e) {
             putErrorLog($e);
-            $this->db = null;
+//            $this->db = null;
 			return FALSE;
         }
 		return TRUE;
@@ -72,7 +71,7 @@ class PriceDB {
 			$stmt->execute();
         } catch (PDOException $e) {
             putErrorLog($e);
-            $this->db = null;
+//            $this->db = null;
 			return FALSE;
         }
 		return TRUE;
@@ -99,6 +98,7 @@ class PriceDB {
 	    try {
 			$query = "insert into $tablename (asin, official_p, new_p, used_p, collectible_p, date) " 
 				. " values (?, ?, ?, ?, ?, ?)";
+			var_dump($newAmazonPrice);
 			$stmt = $this->db->prepare($query);
 			$stmt->bindValue(1, $asin, PDO::PARAM_STR);
 			$stmt->bindValue(2, $newAmazonPrice['official_p'], PDO::PARAM_INT);
@@ -109,7 +109,7 @@ class PriceDB {
 			$stmt->execute();
         } catch (PDOException $e) {
             putErrorLog($e);
-            $this->db = null;
+//            $this->db = null;
 			return FALSE;
         }
 	    return TRUE;
@@ -118,16 +118,17 @@ class PriceDB {
     /**
      * db_mkitem
      *
-     * Summary: データが新規である場合、もしくは、データに変動があった場合、この
-     *          関数が呼ばれる。新規データなら、まずテーブル一覧（list）に今から
+     * Summary: データが新規である場合、関数が呼ばれる。(watchPrice.phpから)
+     *          新規データなら、まずテーブル一覧（list）に今から
      *          作成するテーブル名とタイトルを登録し、それからテーブルを作成する。
      *          そして、最初のデータ（価格）を記録する。
-     *          データが追加である場合、それはデータに変動があったからである。
-     *          この場合は、テーブル一覧（list）にはすでに登録されてあるから、お
-     *          こなわれることは、すでに存在するテーブルに変動した価格データを追
-     *          加するだけである。
-     *          データが新規あるいは追加であるかのチェックはここではしない。この
-     *          関数が呼ばれるのは、新規あるいは追加だからである。
+     *          データが追加である場合は、この関数は呼ばれないと思うんだがなあ。
+     *          （データが追加である場合、それはデータに変動があったからである。
+     *          　この場合は、テーブル一覧（list）にはすでに登録されてあるから、お
+     *          　こなわれることは、すでに存在するテーブルに変動した価格データを追
+     *          　加するだけである。）
+     *          （データが新規あるいは追加であるかのチェックはここではしない。この
+     *          　関数が呼ばれるのは、新規あるいは追加だからである。）
      *
      * @params: $asin, string  -- アマゾン商品番号
      *          $title, string  -- その商品のタイトル
@@ -137,27 +138,35 @@ class PriceDB {
      */
     public function db_mkitem($asin, $title, $price) {
         try {
-            // $db = connectDB();
             $tablename = 'db_' . $asin;
 
             // テーブルを作成する前に、テーブル一覧(list)にテーブル名を追加。
+            // 
+            // listの中の項目を調べるのではなく、ここでは、テーブルの存在を調べて、
+            // listの中にその項目が存在するかどうかをみている。
+			// テーブルがない -- listにその項目がない
+            // テーブルがある -- listにその項目がある、あるいは、テーブルの削除失敗。
 		    $aru = 0;
             $query = "select count (*) from sqlite_master where type='table' and name='" . $tablename . "'";
             $stmt = $this->db->query($query);
 		    while ($row = $stmt->fetch(PDO::FETCH_BOTH)) {
+				// もしテーブルがあれば、$row[0]は1になっているはず。
 			    $aru = $row[0];
 		    }
 
 		    // テーブルがあるということは、テーブル一覧(list)に登録されているってこと。
             // いや、それはわからん。list から削除できても、テーブルが残っていることも
             // ありうる。
+            // listに登録されてないからこのメソッドが呼ばれたのである。
+            // listに登録されてないのに、テーブルがあるということは、削除失敗。
+            // テーブルを削除したうえで、登録作業をする。
             if ($aru) {
                 $this->deleteTable($asin);
-                $msg = "この商品のデータがあったので、削除しました。もう一度作成作業をしてください。";
-            } else {
-                $this->db_index($asin, $tablename, $title);
-                $msg =  "この商品を登録しました。";
+                $msg = "この商品の過去の消し忘れデータがあったので、削除しました。\n";
             }
+            $this->db_index($asin, $tablename, $title);
+            $msg =  $msg . "この商品を登録しました。";
+
 			$_SESSION['msg'] = $msg;
 		    
             // テーブルがなければ作成 -- タイトルはここには入れない。listに入れてある。
@@ -175,11 +184,11 @@ class PriceDB {
 
         } catch (PDOException $e) {
             putErrorLog($e);
-            $this->db = null;
+//            $this->db = null;
 			return FALSE;
         }
 
-        $this->db = null;
+//        $this->db = null;
 	    
 	    return TRUE;
     }
@@ -216,7 +225,7 @@ class PriceDB {
             putErrorLog($e);
             return FALSE;
         }
-		$this->db = null;
+//		$this->db = null;
 
         return $lastData;
     }

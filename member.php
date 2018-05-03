@@ -1,7 +1,7 @@
 <?php
 // member.php
 require_once('UserDB.php');
-require_once('mylib.php');
+require_once('lib/mylib.php');
 
 ini_set('session.cookie_httponly', true);
 session_start();
