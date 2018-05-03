@@ -15,8 +15,6 @@ write.php
 trash
 conf
 db
-<<<<<<< HEAD
 log
-=======
 db_bak
->>>>>>> 9350dd4d3e082cbc093150babdb1e0358aa66ff9
+db/user.db
