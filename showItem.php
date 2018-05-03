@@ -42,7 +42,7 @@ require_once('header.php');
         <div class="date"><?php echo $row['date']; ?></div>
     </div><!-- .row-showItem -->
 <?php } ?>
-<form action="deleteItem.php" method="post">
+<form action="deleteItem.php" method="post" onSubmit="return kakunin()">
     <button type="submit" name="delAsinNo" value="<?php echo $asin; ?>">このアイテムを削除</button>
 </form>
 <?php require_once('footer.php'); ?>

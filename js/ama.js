@@ -43,6 +43,21 @@ function navToggle() {
 // 指定IDをクリックした際に関数を実行
 document.getElementById('nav-toggle').onclick = navToggle;
 
+/*
+ * form の確認用スクリプト
+ *
+ * 使用法
+ * <form action="XXXXX" method="post" onSubmit="return kakunin()">
+ */
+function kakunin() {
+    if (window.confirm('削除します。よろしいですか？')) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+
 // ----------------------------------------------------------
 // クリックしたところの asin を取得する
 /* function getAsin() {
