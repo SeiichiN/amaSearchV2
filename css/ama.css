@@ -231,14 +231,18 @@ select {
 }
 
 /* ---------------------------------------------
-   login.php  -- modal window
+   login.php
+   index.php  -- modal window
    --------------------------------------------- */
-#aboutThis {
+#aboutThis,
+#aboutMenu {
+    text-decoration: underline;
     margin-top: 50px;
     font-size: 0.8em;
     cursor: pointer;
 }
-#overlay-aboutThis {
+#overlay-aboutThis,
+#overlay-aboutMenu {
     position: fixed;
     display: none;
     width: 100%;
@@ -263,6 +267,18 @@ select {
     }
     
 }
+
+/* --------------------------------------------
+   index.php
+   -------------------------------------------- */
+#overlay-aboutMenu dt {
+    font-weight: bold;
+}
+#overlay-aboutMenu dd {
+    margin-bottom: 5px;
+    margin-left: 20px;
+}
+
 
 /*---------------------------------------------
   Hamburger Nav

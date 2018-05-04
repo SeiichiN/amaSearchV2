@@ -98,7 +98,6 @@ class PriceDB {
 	    try {
 			$query = "insert into $tablename (asin, official_p, new_p, used_p, collectible_p, date) " 
 				. " values (?, ?, ?, ?, ?, ?)";
-			var_dump($newAmazonPrice);
 			$stmt = $this->db->prepare($query);
 			$stmt->bindValue(1, $asin, PDO::PARAM_STR);
 			$stmt->bindValue(2, $newAmazonPrice['official_p'], PDO::PARAM_INT);
@@ -185,12 +184,9 @@ class PriceDB {
 
         } catch (PDOException $e) {
             putErrorLog($e);
-//            $this->db = null;
 			return FALSE;
         }
 
-//        $this->db = null;
-	    
 	    return TRUE;
     }
 
@@ -213,7 +209,7 @@ class PriceDB {
 				
 				// 各テーブルの最新データと結合した表を取得する。
 				$query2 = "select * from " . INDEX_TABLE . " inner join {$row['table_name']} on "
-                    . INDEX_TABLE . ".asin = {$row['table_name']}.asin order by id desc limit 1";
+                    . INDEX_TABLE . ".asin = {$row['table_name']}.asin order by date desc limit 1";
 				
 				$stmt2 = $this->db->query($query2);
 				while ($row2 = $stmt2->fetch(PDO::FETCH_ASSOC)) {
@@ -226,7 +222,6 @@ class PriceDB {
             putErrorLog($e);
             return FALSE;
         }
-//		$this->db = null;
 
         return $lastData;
     }
@@ -273,13 +268,10 @@ class PriceDB {
 		// そのアイテムの追跡をしないのだから、テーブルを削除。
 		$tablename = $this->getTableName($asin);
         try {
-//            $this->db->beginTransaction();
             $query = "drop table if exists " . $tablename;
             $stmt = $this->db->query($query);
             $stmt->execute();
-//            $this->db->commit();
         } catch (PDOException $e) {
-//            $this->db->rollBack();
             putErrorLog($e);
             return FALSE;
         }
@@ -307,4 +299,7 @@ class PriceDB {
     }    
 	
 }
-?>
+
+// $myobj = new PriceDB('se-ichi');
+// $lastdata = $myobj->lastdata();
+// var_dump($lastdata);

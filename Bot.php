@@ -75,9 +75,22 @@ class Bot {
 	private function chkPrice(&$mail_msg) {
 		$doMail = FALSE;
 
+		// db_XXXXXXXX 各ユーザのデータベースに接続する。
 		$mydb = new PriceDB($this->loginId);
 		// 価格データベースの最新価格を取得する
 		$lastDBdata = $mydb->lastData();
+        
+        /* $lastDBdata のデータ構造
+         * 		["id"]            => string(2) "16"
+         * 		["asin"]          => string(10) "4063528650"
+         * 		["table_name"]    => string(13) "db_4063528650"
+         * 		["title"]         => string(37) "長濱ねる1st写真集 ここから"
+         * 		["official_p"]    => string(4) "1944"
+         * 		["new_p"]         => string(4) "1890"
+         * 		["used_p"]        => string(3) "954"
+         * 		["collectible_p"] => string(5) "14800"
+         * 		["date"]          => string(16) "2018-05-03 09:53" }
+         * 	*/
 
 		$mylookup = new IdLookup();
 		foreach ($lastDBdata as $row) {
@@ -124,7 +137,10 @@ class Bot {
 		}
 		return $doMail;
 	}
-        
+
+	/**
+	 * summary: アマゾンの現在価格を調べるメソッド chkPrice を呼び出す
+	 */
 	public function checkNow($loginId, $mailAddress) {
 		$this->loginId = $loginId;
 		$this->mailAddress = $mailAddress;
