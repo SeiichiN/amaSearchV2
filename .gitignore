@@ -18,3 +18,4 @@ db
 log
 db_bak
 db/user.db
+*.js~

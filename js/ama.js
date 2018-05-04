@@ -74,5 +74,6 @@ function kakunin() {
  *     console.log(cookie + ":" + value);
  * }
  * 
- * document.getElementById('asinNo').onclick = getAsin;*/
+ * document.getElementById('asinNo').onclick = getAsin;
+ */
 

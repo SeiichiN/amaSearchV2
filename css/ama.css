@@ -50,6 +50,7 @@ header h1 {
    ------------------------------------------------ */
 article {
     padding-bottom: 40px;
+    position: relative;
 }
 
 /* -----------------------------------------------
@@ -70,14 +71,17 @@ footer {
     margin: 2px 0 10px 0;
 }
 input[type="submit"] {
+    -webkit-appearance: none;
     display: inline-block;
     height: 45px;
     min-width: 55px;
 }
 
 .singleBtn {
+    -webkit-appearance: none;
     float: right;
     margin-right: 20px;
+    cursor: pointer;
 }
 
 /* -------------------------------------------------
@@ -156,11 +160,12 @@ select {
     width: 50%;
 }
 .watchList button {
+    -webkit-appearance: none;
     width: 100%;
 }
 
 /* --------------------------------------------
-   Setting Acount
+   edit Acount
    -------------------------------------------- */
 .now-setting {
     margin-bottom: 10px;
@@ -177,7 +182,7 @@ select {
 }
 
 /* -------------------------------------------
-   setting
+   changeLoginId changePW changeMailAddress
    ------------------------------------------- */
 .setting h2 {
     font-size: 1em;
@@ -225,8 +230,39 @@ select {
     font-size: 0.8em;
 }
 
-
-
+/* ---------------------------------------------
+   login.php  -- modal window
+   --------------------------------------------- */
+#aboutThis {
+    margin-top: 50px;
+    font-size: 0.8em;
+    cursor: pointer;
+}
+#overlay-aboutThis {
+    position: fixed;
+    display: none;
+    width: 100%;
+    height: 100%;
+    padding: 5px;
+    box-sizing: border-box;
+    overflow-y: scroll;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #fff;
+    z-index: 2;
+    cursor: pointer;
+}
+@keyframes showWin {
+    0% {
+        top: 300px;
+    }
+    100% {
+        top: 0;
+    }
+    
+}
 
 /*---------------------------------------------
   Hamburger Nav
@@ -286,6 +322,7 @@ select {
   }
 }
 .nav-toggle-button {
+    -webkit-appearance: none;
     position: fixed;
     z-index: 2;
     cursor: pointer;
