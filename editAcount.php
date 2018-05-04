@@ -35,7 +35,7 @@ require_once('header.php');
     <div class="login-id"><span class="head">ログインID:</span> <?php echo h($loginId); ?></div>
     <div class="full-name"><span class="head">おなまえ:</span> <?php echo h($fullName); ?></div>
     <div class="email"><span class="head">メールアドレス:</span> <?php echo h($email); ?></div>
-    <div class="autoMail"><span class="head">価格の変動を知らせるメール:</span> <?php echo $listIn; ?></div>
+    <div class="autoMail"><span class="head">価格の変動を知らせる自動配信メール:</span> <?php echo $listIn; ?></div>
 </section>
 <nav>
     <ul>
@@ -43,7 +43,7 @@ require_once('header.php');
         <li><a href="changePW.php">パスワードの変更</a></li>
         <li><a href="changeMailAddress.php">メールアドレスの変更</a></li>
         <li><a href="<?php echo $linkGetPriceMail; ?>">
-            価格の変動を知らせるメール -> <?php echo $msgGetPriceMail; ?></a></li>
+            価格の変動を知らせる自動配信メール -> <?php echo $msgGetPriceMail; ?></a></li>
     </ul>
 </nav>
 <div class="notice"><?php if (isset($msg)) echo $msg; ?></div>

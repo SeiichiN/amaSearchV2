@@ -18,8 +18,8 @@ require_once('header.php');
         <li><a href="amazonFind.php">キーワードで検索</a></li>
         <li><a href="amazonLookup.php">商品番号ASINで検索</a></li>
         <li><a href="amazonListAll.php">ウォッチ一覧</a></li>
-        <li><a href="botStart.php">価格の変動を今チェック</a></li>
-	    <li><a href="mkAdressList.php">価格の変動を知らせるメールを受け取る</a></li>
+        <li><a href="botStart.php" onclick="return kakunin2()"()>価格の変動を今チェック</a></li>
+	    <li><a href="mkAdressList.php" onclick="return kakunin3()">価格の変動を知らせるメールを受け取る</a></li>
     </ul>
 </nav>
 <div id="aboutMenu">メニューの説明</div>

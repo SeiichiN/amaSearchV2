@@ -50,7 +50,30 @@ document.getElementById('nav-toggle').onclick = navToggle;
  * <form action="XXXXX" method="post" onSubmit="return kakunin()">
  */
 function kakunin() {
-    if (window.confirm('削除します。よろしいですか？')) {
+    if (window.confirm("削除します。\nよろしいですか？")) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+
+/*
+ * <a href=""> の確認用スクリプト
+ *
+ * 使用法
+ * <a href="XXXXX" onclick="return kakunin2()">
+ */
+function kakunin2() {
+    if (window.confirm("価格の変動をチェックします。\nよろしいですか？")) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+function kakunin3() {
+    if (window.confirm("価格の変動をお知らせするメールを\n「受け取る」にセットします。\nよろしいですか？")) {
         return true;
     } else {
         return false;
