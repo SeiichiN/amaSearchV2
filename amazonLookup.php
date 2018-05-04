@@ -90,6 +90,7 @@ require_once('header.php');
                         <div class="watchBtn">
                             <input type="hidden" name="asin" value="<?php echo $id; ?>">
                             <input type="hidden" name="title" value="<?php echo $title; ?>">
+                            <input type="hidden" name="url" value="<?php echo $url; ?>">
                             <input type="submit" value="ウォッチする">
                         </div><!-- .watchBtn -->
                     </div><!-- .row -->

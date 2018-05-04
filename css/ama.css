@@ -60,6 +60,16 @@ footer {
     position: fixed;
     bottom: 0;
 }
+footer ul > li {
+    display: none;
+    border: none;
+    padding: none;
+    height: auto;
+}
+footer ul:hover li {
+    display: block;
+}
+
 
 /* ----------------------------------------------
    form 

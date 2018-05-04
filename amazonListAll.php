@@ -26,6 +26,7 @@ require_once('header.php');
             <div class="title">
                 <form action="showItem.php" method="post">
                     <input type="hidden" name="title" value="<?php echo $row['title']; ?>">
+					<input type="hidden" name="url" value="<?php echo $row['url']; ?>">
                     <button type="submit" name="asinNo" value="<?php echo $row['asin']; ?>">
                         <?php echo $row['title']; ?>
                     </button>

@@ -87,6 +87,7 @@ require_once('header.php');
                     <div class="watchBtn">
                         <form action="watchPrice.php" method="post">
                             <input type="hidden" name="title" value="<?php echo $row['title']; ?>">
+                            <input type="hidden" name="url" value="<?php echo $row['url']; ?>">
                             <input type="hidden" name="officialPrice" value="<?php echo  $row['officialPrice']; ?>">
                             <input type="hidden" name="newPrice" value="<?php echo  $row['newPrice']; ?>">
                             <input type="hidden" name="usedPrice" value="<?php echo  $row['usedPrice']; ?>">

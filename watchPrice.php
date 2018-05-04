@@ -12,6 +12,7 @@ $loginId = checkLoginId();
 
 $asin = getPost('asin');
 $title = getPost('title');
+$url = getPost('url');
 
 if ($asin !== '') {
 	// それぞれの値を数値に変換
@@ -53,7 +54,7 @@ if ($asin !== '') {
 	// ウォッチの登録
 	//   -- ウォッチリスト(list)への登録
 	//   -- テーブルの作成(db_XXXXXXXX)
-	if ($myobj->db_mkitem($asin, $title, $newAmazonPrice))
+	if ($myobj->db_mkitem($asin, $title, $newAmazonPrice, $url))
         $_SESSION['msg'] = "ウォッチに登録しました。";
     else
         $_SESSION['msg'] =  "ウォッチの登録に失敗しました。";

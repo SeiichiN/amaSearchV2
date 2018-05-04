@@ -12,6 +12,7 @@ $loginId = checkLoginId();
 
 $asin = getPost('asinNo');
 $title = getPost('title');
+$url = getPost('url');
 
 $mydb = new PriceDB($loginId);
 $transData = $mydb->transPrice($asin);
@@ -20,8 +21,8 @@ require_once('header.php');
 ?>
 <div class="showItem-header">
     <h1>価格の推移</h1>
-    <div class="asinNo">ASIN:<?php echo $asin; ?></div>
-    <h2><?php echo $title; ?></h2>
+    <div class="asinNo"><a href="<?php echo $url; ?>" target="_blank">ASIN:<?php echo $asin; ?></a></div>
+    <h2><a href="<?php echo $url; ?>" target="_blank"><?php echo $title; ?></a></h2>
 </div><!-- .showItem-header -->
 
 <div class="row-head cssgrid">

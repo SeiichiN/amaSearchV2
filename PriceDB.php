@@ -21,7 +21,7 @@ class PriceDB {
 	    // listテーブルがなければ作る
 		try {
 			$query = "create table if not exists " . INDEX_TABLE . " ( "
-				. "id integer primary key, asin text, table_name text, title text )";
+				. "id integer primary key, asin text, table_name text, title text, url text )";
 			$stmt = $this->db->query($query);
         } catch (PDOException $e) {
             putErrorLog($e);
@@ -45,29 +45,31 @@ class PriceDB {
      * @param: $db -- データベース・オブジェクト
      *         $asin -- アマゾンのASIN番号
      *         $dbtable -- 作成したテーブル名
-     *         $title -- タイトル.
+     *         $title -- タイトル
+	 *         $url -- url.
      *
      * @return: $db.
      *
-     * ----------------------------------------------------------------------------
-     * id          asin        table_name     title                                
-     * ----------  ----------  -------------  -------------------------------------
+     * ------------------------------------------------------------------------------
+     * id          asin        table_name     title                            url      
+     * ----------  ----------  -------------  -------------------------------  ------
      * 1           4063528650  db_4063528650  長濱ねる1st写真集 ここから
      * 2           4873117763  db_4873117763  Docker                               
      * 3           4873116864  db_4873116864  Web API: The Good Parts              
      * 4           B01HM6KK6S  db_B01HM6KK6S  (フルグロウ) Full Glow トート
      * 5           4798151645  db_4798151645  PHPの絵本 第2版 Webアプリ作
-     * ----------------------------------------------------------------------------
+     * ------------------------------------------------------------------------------
      */
-    function db_index($asin, $dbtable, $title) {
+    function db_index($asin, $dbtable, $title, $url) {
 		try {
 			// データを入れる。新規テーブル（ウォッチ商品）を記録する。
-			$query = "insert into " . INDEX_TABLE . " ( asin, table_name, title ) values (?, ?, ?)";
+			$query = "insert into " . INDEX_TABLE . " ( asin, table_name, title, url ) values (?, ?, ?, ?)";
 			
 			$stmt = $this->db->prepare($query);
 			$stmt->bindValue(1, $asin, PDO::PARAM_STR);
 			$stmt->bindValue(2, $dbtable, PDO::PARAM_STR);
 			$stmt->bindValue(3, $title, PDO::PARAM_STR);
+			$stmt->bindValue(4, $url, PDO::PARAM_STR);
 			$stmt->execute();
         } catch (PDOException $e) {
             putErrorLog($e);
@@ -132,10 +134,11 @@ class PriceDB {
      * @params: $asin, string  -- アマゾン商品番号
      *          $title, string  -- その商品のタイトル
      *          $price, array  -- 記録する価格。配列になっている。
+	 *          $url,  string
      *
      * @return: TRUE, boolean
      */
-    public function db_mkitem($asin, $title, $price) {
+    public function db_mkitem($asin, $title, $price, $url) {
         try {
             $tablename = 'db_' . $asin;
 
@@ -164,7 +167,7 @@ class PriceDB {
                 $this->deleteTable($asin);
                 $msg = "この商品の過去の消し忘れデータがあったので、削除しました。\n";
             }
-            $this->db_index($asin, $tablename, $title);
+            $this->db_index($asin, $tablename, $title, $url);
             $msg =  $msg . "この商品を登録しました。";
 
 			$_SESSION['msg'] = $msg;
@@ -246,14 +249,19 @@ class PriceDB {
 		$tablename = 'db_' . $asin;
 		
         // テーブル db_$asin から、データを取得。
-        $query = "select * from $tablename";
-        $stmt = $this->db->query($query);
-		while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-
-            // 配列をそのままぶちこむ。
-            array_push($trPrice, $row);
-
+		try {
+			$query = "select * from $tablename";
+			$stmt = $this->db->query($query);
+			while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+				
+				// 配列をそのままぶちこむ。
+				array_push($trPrice, $row);
+			}
+		} catch (PDOException $e) {
+			putErrorLog($e);
+			return FALSE;
 		}
+				
         return $trPrice;
     }
 
@@ -297,7 +305,46 @@ class PriceDB {
         }
         return TRUE;
     }    
-	
+
+	/**
+	 * Summary: テーブル list の一覧を取得する
+	 *          本当は、あとからurlを入れれるようにしたから
+	 *          編集せんとあかんようになった。
+	 */
+	function showList() {
+		$data = [];
+		try {
+			$query = "select * from " .INDEX_TABLE;
+			$stmt = $this->db->query($query);
+			while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+				array_push($data, $row);
+			}
+        } catch (PDOException $e) {
+            putErrorLog($e);
+            return FALSE;
+        }
+		return $data;
+	}
+
+	/**
+	 * Summary: リストにurlデータを挿入する。
+	 */
+	function updateList($asin, $url) {
+		try {
+			$query = "update " . INDEX_TABLE . " set url = :url where asin = :asin";
+			$stmt = $this->db->prepare($query);
+			$stmt->bindValue(':url', $url, PDO::PARAM_STR);
+			$stmt->bindValue(':asin', $asin, PDO::PARAM_STR);
+			$stmt->execute();
+        } catch (PDOException $e) {
+            putErrorLog($e);
+            return FALSE;
+        }
+		$msg = "urlを挿入しました。";
+		return $msg;
+	}
+
+			
 }
 
 // $myobj = new PriceDB('se-ichi');
