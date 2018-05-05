@@ -231,9 +231,10 @@ class UserDB {
      */
 	public function changePasswd($loginId, $newPW) {
 		try {
-            $query = "update " . USER_TABLE . " set password = {$newPW} where loginId = ?";
+            $query = "update " . USER_TABLE . " set password = :newPW where loginId = :loginId";
             $stmt = $this->db->prepare($query);
-            $stmt->bindValue(1, $loginId, PDO::PARAM_STR);
+			$stmt->bindValue(':newPW', $newPW, PDO::PARAM_STR);
+            $stmt->bindValue(':loginId', $loginId, PDO::PARAM_STR);
             $stmt->execute();
 		} catch (PDOException $e) {
             echo "エラー: ", $e->getMessage();
