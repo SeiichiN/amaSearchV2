@@ -1,13 +1,12 @@
 <?php
 // UserDB.php
-
-const USER_TABLE = 'user';
+require_once('conf/db_conf.php');
 
 class UserDB {
 	private $db;
 
 	function __construct() {
-		$this->db = new PDO('sqlite:db/user.db');
+		$this->db = new PDO(DB_NAME);
         $this->db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
 	    // USER_TABLEテーブルがなければ作る
