@@ -40,7 +40,7 @@ $mydb = new UserDB();
 //    ['loginId', 'name', 'passwd', 'email']
 $flag = 'NO';
 if ($mydb->existLoginId($loginId)) {
-	if ($passwd === $mydb->getPasswd($loginId)) {
+	if (password_verify($passwd, $mydb->getPasswd($loginId))) {
 		$flag = 'OK';
 	}
 }

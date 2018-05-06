@@ -57,15 +57,23 @@ if ($flag === 'NO') {
 } else {
     // 初期パスワードを生成する
 	$passwd = generate_password(8);
+	// パスワードをハッシュ化する。
+	$passwd_hash = password_hash($passwd, PASSWORD_DEFAULT);
     // メンバー情報をデータベースに登録する。
+	$member_hash = [
+		'loginId' => $loginId,
+		'name'    => $name,
+		'email'   => $email,
+		'passwd'  => $passwd_hash,
+		];
+	$mydb->registUser($member_hash);
+
 	$member = [
 		'loginId' => $loginId,
 		'name'    => $name,
 		'email'   => $email,
 		'passwd'  => $passwd,
 		];
-	$mydb->registUser($member);
-
 	$myManageUser = new ManageUser();
     // メンバー登録の報告をbillie175@gmail.comに送る。
     if ($myManageUser->inform($member, SITE_MANAGER))

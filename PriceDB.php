@@ -25,7 +25,6 @@ class PriceDB {
 			$stmt = $this->db->query($query);
         } catch (PDOException $e) {
             putErrorLog($e);
-//            $this->db = null;
 			return FALSE;
         }
 		return TRUE;

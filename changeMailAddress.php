@@ -27,7 +27,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 		// メールアドレスの変更
 		if ($myobj->changeMailAddress($loginId, $newEmail)) {
 			$msg = "メールアドレスを変更しました。";
-			// 必要ならaddress.jsonも変更しなくてはならない。
+			// 必要ならADDRESS_LISTも変更しなくてはならない。
 			$myjson = new ManageUser();
 			if ($myjson->changeAdListEmail($loginId, $newEmail)) {
 				$msg = $msg . "<br>自動配信リストも変更しておきました。";

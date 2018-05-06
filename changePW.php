@@ -22,12 +22,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $v->lengthCheck($oldPW, '現在のパスワード', 20);
     $v->lengthCheck($newPW, '新しいパスワード', 20);
     $v->lengthCheck($renewPW, '確認のパスワード', 20);
+	// エラーがあれば、$err にエラーメッセージが記入される。
     $err = $v();
     if (!$err) {
 
         // 前のパスワードが正しくて、新しいパスワードがふたつ一致していれば
-	    if (($oldPW === $myobj->getPasswd($loginId)) && ($newPW === $renewPW)) {
-		    if ($myobj->changePasswd($loginId, $newPW)) {
+	    if (password_verify($oldPW,$myobj->getPasswd($loginId)) && ($newPW === $renewPW)) {
+			// 新しいパスワードをハッシュ化する。
+			$newPW_hash = password_hash($newPW, PASSWORD_DEFAULT);
+		    if ($myobj->changePasswd($loginId, $newPW_hash)) {
                 $msg = "パスワードを変更しました。";
                 $flag = "OK";
             } else {

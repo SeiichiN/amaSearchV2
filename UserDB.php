@@ -1,6 +1,7 @@
 <?php
 // UserDB.php
 require_once('conf/db_conf.php');
+require_once('lib/mylib.php');
 
 class UserDB {
 	private $db;
@@ -34,10 +35,8 @@ class UserDB {
             $stmt->bindValue(4, $member['email'], PDO::PARAM_STR);
             $stmt->execute();
         } catch (PDOException $e) {
-            echo "エラー: ", $e->getMessage();
-            echo "(File: ", $e->getFile(), ") ";
-            echo "(Line: ", $e->getLine(), ")\n";
-            die();
+            putErrorLog($e);
+			return FALSE;
         }
         return TRUE;
         
@@ -70,11 +69,9 @@ class UserDB {
                     'email' => $row['email'],
                 ];
             }
-		} catch (PDOException $e) {
-            echo "エラー: ", $e->getMessage();
-            echo "(File: ", $e->getFile(), ") ";
-            echo "(Line: ", $e->getLine(), ")\n";
-            die();
+        } catch (PDOException $e) {
+            putErrorLog($e);
+			return FALSE;
         }
         return $flag;
     }
@@ -135,11 +132,9 @@ class UserDB {
             while($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
                 $email = $row['email'];
             }
-		} catch (PDOException $e) {
-            echo "エラー: ", $e->getMessage();
-            echo "(File: ", $e->getFile(), ") ";
-            echo "(Line: ", $e->getLine(), ")\n";
-            die();
+        } catch (PDOException $e) {
+            putErrorLog($e);
+			return FALSE;
         }
         return $email;
     }
@@ -160,11 +155,9 @@ class UserDB {
             while($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
                 $passwd = $row['password'];
             }
-		} catch (PDOException $e) {
-            echo "エラー: ", $e->getMessage();
-            echo "(File: ", $e->getFile(), ") ";
-            echo "(Line: ", $e->getLine(), ")\n";
-            die();
+        } catch (PDOException $e) {
+            putErrorLog($e);
+			return FALSE;
         }
         return $passwd;
     }
@@ -185,11 +178,9 @@ class UserDB {
             while($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
                 $fullName = $row['fullName'];
             }
-		} catch (PDOException $e) {
-            echo "エラー: ", $e->getMessage();
-            echo "(File: ", $e->getFile(), ") ";
-            echo "(Line: ", $e->getLine(), ")\n";
-            die();
+        } catch (PDOException $e) {
+            putErrorLog($e);
+			return FALSE;
         }
         return $fullName;
     }
@@ -213,11 +204,9 @@ class UserDB {
             $stmt = $this->db->prepare($query);
             $stmt->bindValue(1, $loginId, PDO::PARAM_STR);
             $stmt->execute();
-		} catch (PDOException $e) {
-            echo "エラー: ", $e->getMessage();
-            echo "(File: ", $e->getFile(), ") ";
-            echo "(Line: ", $e->getLine(), ")\n";
-            die();
+        } catch (PDOException $e) {
+            putErrorLog($e);
+			return FALSE;
         }
         return TRUE;
     }
@@ -231,15 +220,14 @@ class UserDB {
      */
 	public function changePasswd($loginId, $newPW) {
 		try {
-            $query = "update " . USER_TABLE . " set password = {$newPW} where loginId = ?";
+            $query = "update " . USER_TABLE . " set password = :newPW where loginId = :loginId";
             $stmt = $this->db->prepare($query);
-            $stmt->bindValue(1, $loginId, PDO::PARAM_STR);
+			$stmt->bindValue(':newPW', $newPW, PDO::PARAM_STR);
+            $stmt->bindValue(':loginId', $loginId, PDO::PARAM_STR);
             $stmt->execute();
-		} catch (PDOException $e) {
-            echo "エラー: ", $e->getMessage();
-            echo "(File: ", $e->getFile(), ") ";
-            echo "(Line: ", $e->getLine(), ")\n";
-            die();
+        } catch (PDOException $e) {
+            putErrorLog($e);
+			return FALSE;
         }
         return TRUE;
     }
@@ -258,11 +246,9 @@ class UserDB {
             $stmt = $this->db->prepare($query);
             $stmt->bindValue(1, $id, PDO::PARAM_STR);
             $stmt->execute();
-		} catch (PDOException $e) {
-            echo "エラー: ", $e->getMessage();
-            echo "(File: ", $e->getFile(), ") ";
-            echo "(Line: ", $e->getLine(), ")\n";
-            die();
+        } catch (PDOException $e) {
+            putErrorLog($e);
+			return FALSE;
         }
         return TRUE;
     }
@@ -281,15 +267,16 @@ class UserDB {
             $stmt = $this->db->prepare($query);
             $stmt->bindValue(1, $loginId, PDO::PARAM_STR);
             $stmt->execute();
-		} catch (PDOException $e) {
-            echo "エラー: ", $e->getMessage();
-            echo "(File: ", $e->getFile(), ") ";
-            echo "(Line: ", $e->getLine(), ")\n";
-            die();
+        } catch (PDOException $e) {
+            putErrorLog($e);
+			return FALSE;
         }
         return TRUE;
     }
 
+	/**
+	 * Summary: sqlite3データベースでの id 値を調べる -> 使うのかなあ
+	 */
     private function getId($loginId) {
         try {
             $query = "select id from " . USER_TABLE . " where loginId = ? limit 1";
@@ -299,13 +286,40 @@ class UserDB {
             while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
                 $id = $row['id'];
             }
-		} catch (PDOException $e) {
-            echo "エラー: ", $e->getMessage();
-            echo "(File: ", $e->getFile(), ") ";
-            echo "(Line: ", $e->getLine(), ")\n";
-            die();
+        } catch (PDOException $e) {
+            putErrorLog($e);
+			return FALSE;
         }
         return $id;
+    }
+
+	public function getUserList() {
+        $userList = [];
+		$query = "select * from " . USER_TABLE;
+        try {
+            $stmt = $this->db->query($query);
+            $stmt->execute();
+            while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                array_push($userList, $row);
+            }
+        } catch (PDOException $e) {
+            putErrorLog($e);
+			return FALSE;
+        }
+        return $userList;
+    }
+
+    public function deleteUser($loginId) {
+        $query = "delete from " . USER_TABLE . " where loginId = :loginId";
+        try {
+            $stmt=$this->db->prepare($query);
+            $stmt->bindValue(':loginId', $loginId, PDO::PARAM_STR);
+            $stmt->execute();
+        } catch (PDOException $e) {
+            putErrorLog($e);
+			return FALSE;
+        }
+        return TRUE;
     }
 }
 
