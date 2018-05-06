@@ -7,6 +7,7 @@
 				<?php if (isset($loginId)) { ?>
                     <?php if ($loginId === 'se-ichi') { ?>
 				        <small><a href="editList.php">登録商品編集</a></small>
+						<small><a href="userList.php">ユーザー管理</a></small>
                     <?php } ?>
                 <?php } ?>
             </footer>

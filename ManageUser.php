@@ -2,6 +2,7 @@
 // ManageUser.php
 require_once('lib/mylib.php');
 require_once('lib/mymail.php');
+require_once('conf/mail_conf.php');
 require_once('UserDB.php');
 
 class ManageUser {
@@ -25,7 +26,7 @@ class ManageUser {
 	}
 
     /**
-     * Summary: address.jsonに登録されているかどうかを調べる。
+     * Summary: ADDRESS_LISTに登録されているかどうかを調べる。
      *          
      * @params: string $loginId.
      * @return: boolean TRUE or FALSE.
