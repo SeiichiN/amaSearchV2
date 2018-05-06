@@ -12,11 +12,11 @@ require_once('header.php');
 echo "接続OK ";
 
 if ($_SERVER['REQUEST_METHOD'] === 'GET')
-	$loginId = $_GET['id'];
+	$loginId = getGet('id');
 
 echo "loginId = {$loginId} ";
 
-$passwd = $mydb->getPasswd($loginId);
+$passwd = $mydb->getFirstPW($loginId);
 
 echo "passwd = {$passwd} ";
 

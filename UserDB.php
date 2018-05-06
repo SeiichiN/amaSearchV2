@@ -20,19 +20,20 @@ class UserDB {
     /**
      * Summary: ユーザーを登録する
      *
-     * @params: array $member -- 連想配列 'loginId', 'name', 'passwd', 'email'
+     * @params: array $member -- 連想配列 'loginId', 'name', 'passwd', 'email', 'firstPW'
      *
      * @return: boolean TRUE
      */
 	public function registUser($member) {
         try {
-            $query = "insert into " . USER_TABLE . " (loginId, fullName, password, email) "
-                   . "values ( ?, ?, ?, ?)";
+            $query = "insert into " . USER_TABLE . " (loginId, fullName, password, email, firstPW) "
+                   . "values ( ?, ?, ?, ?, ?)";
             $stmt = $this->db->prepare($query);
             $stmt->bindValue(1, $member['loginId'], PDO::PARAM_STR);
             $stmt->bindValue(2, $member['name'], PDO::PARAM_STR);
             $stmt->bindValue(3, $member['passwd'], PDO::PARAM_STR);
             $stmt->bindValue(4, $member['email'], PDO::PARAM_STR);
+            $stmt->bindValue(5, $member['firstPW'], PDO::PARAM_STR);
             $stmt->execute();
         } catch (PDOException $e) {
             putErrorLog($e);
@@ -162,6 +163,29 @@ class UserDB {
         return $passwd;
     }
 
+	/**
+     * Summary: 初期パスワードを取得する
+     * 
+     * @params: string $loginId.
+     *
+     * @return: string $firstPW.
+     */
+    public function getFirstPW($loginId) {
+        $query = "select firstPW from " . USER_TABLE . " where loginId = ? limit 1";
+        try {
+            $stmt = $this->db->prepare($query);
+            $stmt->bindValue(1, $loginId, PDO::PARAM_STR);
+            $stmt->execute();
+            while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                $firstPasswd = $row['firstPW'];
+            }
+        } catch (PDOException $e) {
+            putErrorLog($e);
+			return FALSE;
+        }
+        return $firstPasswd;
+    }
+        
     /**
      * Summary: フルネームを取得する
      * 

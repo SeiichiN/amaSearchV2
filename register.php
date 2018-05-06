@@ -65,6 +65,7 @@ if ($flag === 'NO') {
 		'name'    => $name,
 		'email'   => $email,
 		'passwd'  => $passwd_hash,
+		'firstPW' => $passwd,
 		];
 	$mydb->registUser($member_hash);
 
