@@ -60,9 +60,9 @@ require_once('header.php');
         <?php
         // json用データ作成  
         array_push($offP, ["label"=>substr($row['date'], 6,5), "y"=>$row['official_p']]);
-        array_push($newP, ["label"=>substr($row['date'], 6,5), "y"=>$row['official_p']]);
-        array_push($useP, ["label"=>substr($row['date'], 6,5), "y"=>$row['official_p']]);
-        array_push($colP, ["label"=>substr($row['date'], 6,5), "y"=>$row['official_p']]);
+        array_push($newP, ["label"=>substr($row['date'], 6,5), "y"=>$row['new_p']]);
+        array_push($useP, ["label"=>substr($row['date'], 6,5), "y"=>$row['used_p']]);
+        array_push($colP, ["label"=>substr($row['date'], 6,5), "y"=>$row['collectible_p']]);
         ?>
     </div><!-- .row-showItem -->
 <?php } ?>
@@ -71,70 +71,75 @@ require_once('header.php');
 </form>
 <div id="chartContainer"></div>
 <?php
-
+// json文字列に変換してjavascriptにわたす
 $offP = json_escape($offP);
 $newP = json_encode($newP);
 $useP = json_encode($useP);
 $colP = json_encode($colP);
-
-// $offP = 'wahaha';
 ?>
-<!-- <script src="js/graph.js"></script> -->
-<?php // require_once('footer.php'); ?>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/canvasjs/1.7.0/canvasjs.min.js"></script>
 <script>
- console.log('<?php echo $useP; ?>');
- var data_offP = JSON.parse('<?php echo $offP; ?>');
- var data_newP = JSON.parse('<?php echo $newP; ?>');
- var obj_useP = JSON.parse('<?php echo $useP; ?>');
- var data_colP = JSON.parse('<?php echo $colP; ?>');
-
- console.log(obj_useP);
-
- data_useP = [];
- for(let i = 0; i < obj_useP.length; i++) {
-     console.log(obj_useP[i]['label'], obj_useP[i]['y']);
+ // y値を数値に変換する
+ function toNum (obj) {
+     for (let i = 0; i < obj.length; i++) {
+         obj[i]['y'] = parseInt(obj[i]['y']);
+     }
+     return obj;
  }
  
- /* var chart = new CanvasJS.Chart("chartContainer", {
-  *     title: {
-  *         text: "価格の推移"
-  *     },
-  *     legend: {
-  *         horizontalAlign: "right", // "center", "left"
-  *         verticalAlign: "center", // "top", "bottom"
-  *         fontSize: 16
-  *     },
-  *     data: [
-  *         {
-  *             type: 'line',
-  *             showInLegend: true,
-  *             legendText: 'アマゾン価格',
-  *             dataPoints: data_offP
-  *         },
-  *         {
-  *             type: 'line',
-  *             showInLegend: true,
-  *             legendText: '新品価格',
-  *             dataPoints: data_newP
-  *         },
-  *         {
-  *             type: 'line',
-  *             showInLegend: true,
-  *             legendText: '中古価格',
-  *             dataPoints: data_useP
-  *         },
-  *         {
-  *             type: 'line',
-  *             showInLegend: true,
-  *             legendText: 'コレクション価格',
-  *             dataPoints: data_colP
-  *         }
-  *     ]
-  * });
-  * chart.render();
-  * */        
-</script>
-</body>
-</html>
+ // 文字列をオブジェクトに変換
+ var data_offP = JSON.parse('<?php echo $offP; ?>');
+ var data_newP = JSON.parse('<?php echo $newP; ?>');
+ var data_useP = JSON.parse('<?php echo $useP; ?>');
+ var data_colP = JSON.parse('<?php echo $colP; ?>');
 
+ // yの値が文字列なので、数値になおす
+ data_offP = toNum(data_offP);
+ data_newP = toNum(data_newP);
+ data_useP = toNum(data_useP);
+ data_colP = toNum(data_colP);
+
+ var chart = new CanvasJS.Chart("chartContainer", {
+     title: {
+         text: "価格の推移"
+     },
+     legend: {
+         horizontalAlign: "center", // "center", "left", "right"
+         verticalAlign: "top", // "top", "bottom", "center"
+         fontSize: 16
+     },
+     data: [
+         {
+             type: 'line',
+             showInLegend: true,
+             legendText: 'アマゾン価格',
+             dataPoints: data_offP
+         },
+         {
+             type: 'line',
+             showInLegend: true,
+             legendText: '新品価格',
+             dataPoints: data_newP
+         },
+         {
+             type: 'line',
+             showInLegend: true,
+             legendText: '中古価格',
+             dataPoints: data_useP
+         }
+         /*
+          * コレクション価格は値が大きく、他のグラフが
+          * 見づらくなるので描画しない。
+          * 
+          * {
+          *     type: 'line',
+          *     showInLegend: true,
+          *     legendText: 'コレクション価格',
+          *     dataPoints: data_colP
+          * }*/
+     ]
+ });
+ chart.render();
+ 
+</script>
+<?php require_once('footer.php'); ?>
