@@ -69,24 +69,71 @@ require_once('header.php');
 <form action="deleteItem.php" method="post" onSubmit="return kakunin()">
     <button type="submit" name="delAsinNo" value="<?php echo $asin; ?>">このアイテムを削除</button>
 </form>
+<div id="chartContainer"></div>
 <?php
-/* $json_offP = json_encode($offP, JSON_PRETTY_PRINT);
- * $json_newP = json_encode($newP, JSON_PRETTY_PRINT);
- * $json_useP = json_encode($useP, JSON_PRETTY_PRINT);
- * $json_colP = json_encode($colP, JSON_PRETTY_PRINT);*/
 
 $offP = json_escape($offP);
-/* $newP = json_encode($newP);
- * $useP = json_encode($useP);
- * $colP = json_encode($colP);*/
+$newP = json_encode($newP);
+$useP = json_encode($useP);
+$colP = json_encode($colP);
 
 // $offP = 'wahaha';
 ?>
 <!-- <script src="js/graph.js"></script> -->
 <?php // require_once('footer.php'); ?>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/canvasjs/1.7.0/canvasjs.min.js"></script>
 <script>
-    var data = '<?php echo $offP; ?>';
-    console.log(data);
+ console.log('<?php echo $useP; ?>');
+ var data_offP = JSON.parse('<?php echo $offP; ?>');
+ var data_newP = JSON.parse('<?php echo $newP; ?>');
+ var obj_useP = JSON.parse('<?php echo $useP; ?>');
+ var data_colP = JSON.parse('<?php echo $colP; ?>');
+
+ console.log(obj_useP);
+
+ data_useP = [];
+ for(let i = 0; i < obj_useP.length; i++) {
+     console.log(obj_useP[i]['label'], obj_useP[i]['y']);
+ }
+ 
+ /* var chart = new CanvasJS.Chart("chartContainer", {
+  *     title: {
+  *         text: "価格の推移"
+  *     },
+  *     legend: {
+  *         horizontalAlign: "right", // "center", "left"
+  *         verticalAlign: "center", // "top", "bottom"
+  *         fontSize: 16
+  *     },
+  *     data: [
+  *         {
+  *             type: 'line',
+  *             showInLegend: true,
+  *             legendText: 'アマゾン価格',
+  *             dataPoints: data_offP
+  *         },
+  *         {
+  *             type: 'line',
+  *             showInLegend: true,
+  *             legendText: '新品価格',
+  *             dataPoints: data_newP
+  *         },
+  *         {
+  *             type: 'line',
+  *             showInLegend: true,
+  *             legendText: '中古価格',
+  *             dataPoints: data_useP
+  *         },
+  *         {
+  *             type: 'line',
+  *             showInLegend: true,
+  *             legendText: 'コレクション価格',
+  *             dataPoints: data_colP
+  *         }
+  *     ]
+  * });
+  * chart.render();
+  * */        
 </script>
 </body>
 </html>
