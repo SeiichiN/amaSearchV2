@@ -82,7 +82,8 @@ $colP = json_encode($colP);
  // y値を数値に変換する
  function toNum (obj) {
      for (let i = 0; i < obj.length; i++) {
-         obj[i]['y'] = parseInt(obj[i]['y']);
+         //obj[i]['y'] = parseInt(obj[i]['y']);
+         obj[i].y = parseInt(obj[i].y);
      }
      return obj;
  }
