@@ -1,10 +1,11 @@
 <?php
 
 require_once('Bot.php');
+require_once('conf/mail_conf.php');
 
 $myobj = new Bot();
 
-$jsonUrl = "address.json";
+$jsonUrl = ADDRESS_LIST;
 
 $msg = "価格を調べています...\n";
 
