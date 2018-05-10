@@ -8,6 +8,7 @@ $myobj = new Bot();
 $jsonUrl = ADDRESS_LIST;
 
 $msg = "価格を調べています...\n";
+$msg = $msg . $jsonUrl . "\n";
 
 if (file_exists($jsonUrl)) {
 	$json = file_get_contents($jsonUrl);
