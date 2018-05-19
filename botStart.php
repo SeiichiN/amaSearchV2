@@ -1,9 +1,21 @@
 <?php
+
 require_once('lib/mylib.php');
+require_once('Bot.php');
+require_once('UserDB.php');
 
-exec("nohup php -c '' 'start.php' > /dev/null &");
+ini_set('session.cookie_httponly', true);
+session_start();
 
-$msg = "価格を調べています。結果はメールでお知らせします。";
+
+$loginId = checkLoginId();
+
+$mydb = new UserDB();
+$mailAddress = $mydb->getMailAddress($loginId);
+
+// echo "アマゾンの現在価格を調べます。\n";
+$myobj = new Bot();
+$msg = $myobj->checkNow($loginId, $mailAddress);
 
 $_SESSION['msg'] = $msg;
 

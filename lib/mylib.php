@@ -30,6 +30,14 @@ function putErrorLog($e) {
 	return error_log($msg, 3, $log);
 }
 
+function putMsgLog($msg) {
+	$logtime = date('Y-m-d_His');
+	$log = 'log/msg_' . $logtime . '.log';
+	$msg = 'メッセージ:' . $msg;
+	return error_log($msg, 3, $log);
+}
+	
+
 function h ($str) {
 	return htmlspecialchars($str, ENT_QUOTES, "UTF-8");
 }
@@ -150,7 +158,10 @@ function getReferer() {
  *           dirname   -- 親フォルダのパスを取り出す
  */
 function getMyURL() {
-	$myurl = 'http://' . $_SERVER['HTTP_HOST'] . dirname($_SERVER['PHP_SELF']) . '/';
+	if (isset($_SERVER['HTTP_HOST']))
+		$myurl = 'http://' . $_SERVER['HTTP_HOST'] . dirname($_SERVER['PHP_SELF']) . '/';
+	else
+		$myurl = './';
 	return $myurl;
 }
 
