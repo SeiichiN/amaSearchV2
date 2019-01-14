@@ -6,7 +6,7 @@ class MyValidator {
 	private $_errors;
 
 	public function __construct(string $encoding = 'UTF-8') {
-		$_errors = [];
+		$this->_errors = [];
 	    mb_internal_encoding($encoding);
 
         $this->checkEncoding($_GET);
