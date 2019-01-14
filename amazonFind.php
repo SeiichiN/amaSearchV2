@@ -53,10 +53,13 @@ require_once('header.php');
 </form>
 <section>
     <?php if (!empty($result)) { ?>
-        
+
+        <?php $idx = 0; ?>
         <?php foreach($result as $row) { ?>
+            <?php $idx++; ?>
             <div class="item">
                 <div class="title">
+                    <span class="itemNo"><?php echo $idx;  ?>:</span>
                     <a href="<?php echo $row['url']; ?>" target="_blank">
                         タイトル: <?php echo $row['title']; ?>
                     </a>
@@ -85,7 +88,9 @@ require_once('header.php');
                         </div>
                     </div><!--  -->
                     <div class="watchBtn">
-                        <form action="watchPrice.php" method="post">
+                        <!-- <form action="watchPrice.php" method="post"> -->
+                        <form name="sendItem">
+                            <input type="hidden" name="asin" value="<?php echo $row['id']; ?>">
                             <input type="hidden" name="title" value="<?php echo $row['title']; ?>">
                             <input type="hidden" name="url" value="<?php echo $row['url']; ?>">
                             <input type="hidden" name="officialPrice" value="<?php echo  $row['officialPrice']; ?>">
@@ -93,8 +98,7 @@ require_once('header.php');
                             <input type="hidden" name="usedPrice" value="<?php echo  $row['usedPrice']; ?>">
                             <input type="hidden" name="collectiblePrice"
                                    value="<?php echo  $row['collectiblePrice']; ?>">
-                            <button type="submit" name="asin"
-                                    value="<?php echo $row['id']; ?>">
+                            <button type="button" class="sendWatchItemBtn" name="sendWatchItemBtn">
 							    ウォッチ<br>する
                             </button>
                         </form>

@@ -12,6 +12,7 @@
                 <?php } ?>
             </footer>
         </div><!-- #wrap -->
+        <script src="js/sendWatchItem.js"></script>
 		<script src="js/ama.js"></script>
         <script>FontAwesomeConfig = { searchPseudoElements: true };</sctipt>
     </body>

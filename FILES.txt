@@ -1,0 +1,7 @@
+インストールに必要なディレクトリ
+
+db -- chmod 777
+log -- chmod 777
+conf
+vendor
+

@@ -14,6 +14,10 @@ $asin = getPost('asin');
 $title = getPost('title');
 $url = getPost('url');
 
+// $asin = $_POST['asin'];
+// $title = $_POST['title'];
+// $url = $_POST['url'];
+
 if ($asin !== '') {
 	// それぞれの値を数値に変換
 	// もし空文字列なら、-1 を入れる。

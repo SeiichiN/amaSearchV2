@@ -19,3 +19,4 @@ log
 db_bak
 *.js~
 address.json
+*old.php
