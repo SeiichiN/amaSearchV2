@@ -36,15 +36,19 @@ function sendRequest(idx) {
     data.append('newPrice', newPrice);
     data.append('usedPrice', usedPrice);
     data.append('collectiblePrice', collectiblePrice);
-    for (let [key, val] of data) {
-        sendData = sendData + key + "=" + val + "&";
-    }
-    sendData = sendData.slice(0, -1);  // 末尾の「&」を削除
+    /* for (let [key, val] of data) {
+     *     sendData = sendData + key + "=" + val + "&";
+     * }
+     * sendData = sendData.slice(0, -1);  // 末尾の「&」を削除*/
+
+    // formDataを使うときは、
+    //   xmlhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+    // の記述はいらない。
+    // sendメソッドが自動的に付加してくれる。
     
     if (xmlhttp !== null) {
         xmlhttp.open("POST", "./watchPrice.php", false);
-        xmlhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-        xmlhttp.send(sendData);
+        xmlhttp.send(data);
         var res = xmlhttp.responseText;
         document.getElementsByClassName("notice")[0].textContent = res;
         alert(res);
