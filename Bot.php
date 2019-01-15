@@ -140,6 +140,12 @@ class Bot {
 
 	/**
 	 * summary: アマゾンの現在価格を調べるメソッド chkPrice を呼び出す
+	 * 
+	 * @params: $loginId, $mailAddress.
+	 *
+	 * @return: $msg 
+	 *          価格に変動があったとき -- メール送信しました。or メール送信に失敗しました。
+	 *          価格に変動がなかったとき -- 価格に変動はありませんでした。
 	 */
 	public function checkNow($loginId, $mailAddress) {
 		$this->loginId = $loginId;

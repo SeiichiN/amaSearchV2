@@ -19,4 +19,9 @@ log
 db_bak
 *.js~
 address.json
+<<<<<<< HEAD
 *old.php
+=======
+shippai.php
+temp.txt
+>>>>>>> 17d0ca363ea13dff5d9e6c5116c633d062289215
