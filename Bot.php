@@ -72,6 +72,14 @@ class Bot {
 		return $priceBit;
 	}
 
+    /**
+     * chkPrice
+     *
+     * アマゾンの現在価格を調べて、もし変化があれば、ユーザーにメールする
+     * ためのメッセージを作成する。
+     *
+     * @Return: boolean $doMail -- 変化あり。メッセージ作成。の場合、true。
+     */
 	private function chkPrice(&$mail_msg) {
 		$doMail = FALSE;
 
@@ -104,8 +112,13 @@ class Bot {
         
 			// $newdata と 記録されたデータを比べて、価格に変動があればチェック。
 			$priceBit = $this->setPriceBit($row, $newdata);
-            if (DEBUG)
+
+            // DEBUG を true にする必要はない。
+            // ここでは単なる目印の意味合いである。
+            if (DEBUG) {
                 echo $row['asin'], " ", $row['title'], " BIT= ", $priceBit, "<br>\n";
+                var_dump($row);
+            }
         
 			// もし、0でなければ価格に変動があったということなので、
 			// その価格を記録する。また、メールでの報告文を作成。
@@ -125,10 +138,15 @@ class Bot {
 					];
 				// データベースに記録
 				$mydb->db_addPrice($row['asin'], $newAmazonPrice);
-            
+
+                $url = $row['url'];
+                
 				// ユーザーにメールして知らせるためのメッセージを作成。
 				$msg = $this->mkMailMsg($priceBit, $oldAmazonPrice, $newAmazonPrice);
-				$mail_msg = $mail_msg . "ASIN:{$row['asin']}\nタイトル:{$row['title']}\n" . $msg . "\n";
+//				$mail_msg = $mail_msg . "ASIN:{$row['asin']}\nタイトル:{$row['title']}\n" . $msg . "\n";
+				$mail_msg = $mail_msg
+                          . '<a href="' . $url . '">'
+                          . "ASIN:{$row['asin']}\nタイトル:{$row['title']}</a><br>\n" . $msg . "<br><br>\n";
 				$doMail = TRUE;
 			}
 			// アマゾンに負担をかけないように配慮
@@ -151,7 +169,7 @@ class Bot {
 		$this->loginId = $loginId;
 		$this->mailAddress = $mailAddress;
 
-		$mail_msg = "アマゾン価格の変動は以下のとおりです。\n（このメールは自動配信です）\n\n";
+		$mail_msg = "アマゾン価格の変動は以下のとおりです。<br>\n（このメールは自動配信です）<br>\n\n";
 		$subject = 'アマゾン価格に変動がありました。';
 		$to = $this->mailAddress;
 		$replyto = REPLY_ADDRESS;

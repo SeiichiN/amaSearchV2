@@ -30,5 +30,6 @@ function gmail($subject, $body, $to, $reply = NULL) {
 	$mail->addAddress($to);
 	$mail->Subject = $subject;
 	$mail->Body = $body;
+    $mail->isHTML(true);
 	return $mail->send();
 }
