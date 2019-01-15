@@ -169,7 +169,7 @@ class Bot {
 		$this->loginId = $loginId;
 		$this->mailAddress = $mailAddress;
 
-		$mail_msg = "アマゾン価格の変動は以下のとおりです。<br>\n（このメールは自動配信です）<br>\n\n";
+		$mail_msg = "アマゾン価格の変動は以下のとおりです。<br>\n（このメールは自動配信です）<br>\n<br>\n";
 		$subject = 'アマゾン価格に変動がありました。';
 		$to = $this->mailAddress;
 		$replyto = REPLY_ADDRESS;
